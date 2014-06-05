@@ -10,7 +10,9 @@ httpApp.use(express.static(__dirname + "/frontend/"));
 
 // Start Express http server on port 8080
 var webServer = http.createServer(httpApp).listen(8080);
-httpApp.get("/eman",function(req, res) { res.end("hello"); });
+
+var routes = require('./routes')(httpApp);
+
 // Start Socket.io so it attaches itself to Express server
 var socketServer = io.listen(webServer, {"log level":1});
 
