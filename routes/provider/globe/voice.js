@@ -88,7 +88,7 @@ exports.processSearch = function(req, res) {
 			 
 			 res.send(tropowebapi.TropoJSON(tropo));
 		break;
-		default:
+		case 'end':
 			var tropowebapi = require('tropo-webapi');
 			var tropo = new tropowebapi.TropoWebAPI();
 			tropo.hangup();
