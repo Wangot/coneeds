@@ -41,7 +41,7 @@ module.exports = function(db) {
 
   User.generateOTPCode = function(number) {
 
-    var maxCodeLength = 100;
+    var codeLength = 8;
     var crypto = require('crypto');
     
     // get the salt to a config OR create a salt per user
@@ -56,11 +56,14 @@ module.exports = function(db) {
     var activationCode = cipher.update(cipherSubject, 'utf8', 'hex') + cipher.final('hex');
 
     // substring the code if it exceeds the maxLength
-    if (activationCode.length > maxCodeLength) {
-      activationCode = activationCode.substring(90, maxCodeLength);
-    }
+    // if (activationCode.length > codeLength) {
+    //   activationCode = activationCode.substring(90, maxCodeLength);
+    // }
 
-    return activationCode;
+    var genCodeLength = activationCode.length;
+    activationCode.substring(genCodeLength - 10, genCodeLength); 
+ 
+    return activationCode; 
   }
   
   return User;
