@@ -12,6 +12,7 @@ module.exports = function attachHandlers (router) {
     router.post('/globe/voice/askSearch', Voice.askSearch);
     router.post('/globe/voice/doSearch', Voice.doSearch);
     router.post('/globe/voice/processSearch', Voice.processSearch);
+    router.post('/globe/voice/processChoices', Voice.processChoices);
 
     router.post('/globe/voice/hangup', Voice.hangup);
 
