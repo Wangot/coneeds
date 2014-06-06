@@ -35,20 +35,26 @@ exports.askSearch = function(req, res) {
 
 
 exports.doSearch = function(req, res) {
-	var searchQuery = [{'description' : 'I am Raymande Leano', 'number' : '123456'}, {'description' : 'Boom Panis!', 'number' : '123456'}];
-	doSearching(res, searchQuery);
+	var searchIds = [1, 2, 3];
+	doSearching(res, searchIds);
 }
 
-function doSearching(res, searchQuery) {
+function doSearching(res, searchIds) {
+	var searchQuery = { 'data': [{ 'id': '1', 'name' : 'I am Raymande Leano', 'number' : '123456'}, 
+								{ 'id': '2', 'name' : 'Boom Panis!', 'number' : '123456'}] 
+						};
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
 
-	var say = new Say("<speak><prosody rate='70%'>"+ searchQuery[0].description +"</prosody></speak>", null, null, null, null, null);
+	
+	var say = new Say("<speak><prosody rate='70%'>"+ searchQuery.data[searchIds[0] - 1].name +"</prosody></speak>", null, null, null, null, null);
+
+	var arrayString = searchIds.join(',');
 
 	var choices = new Choices("call, next, end");
 
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
-  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/processSearch", true);
+  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/processSearch?id="+ arrayString, true);
   	res.send(tropowebapi.TropoJSON(tropo));
 }
 
@@ -59,7 +65,9 @@ exports.processSearch = function(req, res) {
 	res.send(tropowebapi.TropoJSON(tropo));
 	*/
 	if (actionValue == 'next') {
-		delete searchQuery[0];
-		doSearching(res, searchQuery);
+		var ids = req.query.id;
+		var arrayIds = ids.split(',');
+		arrayIds.splice(0,1);
+		doSearching(res, arrayIds);
 	}
 }
