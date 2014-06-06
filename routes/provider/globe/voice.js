@@ -94,6 +94,7 @@ function doCall(req, res, arrayIds) {
 
 	Q.ninvoke(User, 'get', searchIds[0])
 	.then(function(user) {
+		console.log(user);
 		tropo.say("Please hold while we transfer your superman call!");
 		var on = [
 		   { "event":"ring",
@@ -131,6 +132,7 @@ exports.processSearch = function(req, res) {
 		case 'call':
 			var ids = req.query.id;
 			var arrayIds = ids.split(',');
+			console.log(arrayIds);
 			doCall(req, res, arrayIds);
 		break;
 		case 'end':
