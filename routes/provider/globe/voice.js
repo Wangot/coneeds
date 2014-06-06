@@ -23,12 +23,12 @@ exports.processChoices = function(req, res) {
 	//console.log(actionValue);
 	switch(actionValue) {
 		case '1' : 
-			tropo.say("<speak><prosody rate='60%'>You selected to search. please wait...</prosody></speak>");
+			tropo.say("<speak><prosody rate='60%'>You selected to search... please wait...</prosody></speak>");
 			tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/askSearch", true);
 			res.send(tropowebapi.TropoJSON(tropo));
 		break;
 		case '2' : 
-			tropo.say("<speak><prosody rate='60%'>You selected to connect. please wait...</prosody></speak>");
+			tropo.say("<speak><prosody rate='60%'>You selected to connect... please wait...</prosody></speak>");
 			tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/askConnect", true);
 			res.send(tropowebapi.TropoJSON(tropo));			
 		break;
@@ -43,6 +43,7 @@ exports.askConnect = function(req, res) {
 	var tropo = new tropowebapi.TropoWebAPI();
 	var say = new Say("<speak><prosody rate='70%'>Please enter the I..D..</prosody></speak>", null, null, null, null, null);
 
+	//@TODO this only the limit update this in future
 	var choices = new Choices("[1 DIGIT]", "dtmf", "#");
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
   	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doConnect", true);
@@ -70,7 +71,6 @@ exports.doConnect = function(req, res) {
 	var User = require(modelPath + '/user')(req.db);
 
 	var actionValue = req.body.result.actions.value;
-	//var actionValue = 'teacher';
 
 	Q.ninvoke(User, 'get', actionValue)
 	.then(function(user) {
