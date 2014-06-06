@@ -36,7 +36,7 @@ httpApp.use(function (req, res, next) {
 utilities.easyrtcService(easyrtc, ormDB);
 
 // Start Express http server on port 8080
-var webServer = http.createServer(httpApp).listen(8080);
+var webServer = http.createServer(httpApp).listen(3000);
 
 var routes = require('./routes')(httpApp);
 
