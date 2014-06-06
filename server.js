@@ -41,7 +41,7 @@ httpApp.use(cookieParser());
 httpApp.use(session({secret: '1234567890QWERTY'}));
 
 // Start Express http server on port 8080
-var webServer = http.createServer(httpApp).listen(3000);
+var webServer = http.createServer(httpApp).listen(8080);
 
 var routes = require('./routes')(httpApp);
 
