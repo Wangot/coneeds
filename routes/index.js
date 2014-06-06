@@ -117,10 +117,8 @@ var validateOTP = function(req, res) {
 }
 
 var dashboard = function(req, res) {
-  console.log(req.session.user);
-  res.render('dashboard', {});
+  res.render('dashboard', {user: req.session.user});
 }
-
 
 var login = function(request, response) {
   var User = require(path.join(modelsPath, '/user'))(request.db);
