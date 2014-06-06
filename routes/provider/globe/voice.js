@@ -21,7 +21,7 @@ exports.askSearch = function(req, res) {
 	var tropo = new tropowebapi.TropoWebAPI();
 	var say = new Say("<speak><prosody rate='70%'>What is you category?</prosody></speak>", null, null, null, null, null);
 
-	var choices = new Choices("test, Tutor, Teacher, Lawyer, Nurse");
+	var choices = new Choices("tutor, teacher, lawyer, nurse");
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
   	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
   	tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/hangup", true);
@@ -30,27 +30,57 @@ exports.askSearch = function(req, res) {
 
 
 exports.doSearch = function(req, res) {
-	var searchIds = [1, 2, 3];
-	doSearching(res, searchIds);
+	var Q = require('q');
+	var path = require('path');
+	var modelPath =  path.resolve('./', 'models/orm');
+	var User = require(modelPath + '/user')(req.db);
+
+	//var actionValue = req.body.result.actions.value;
+	var actionValue = 'tutor';
+
+	Q.ninvoke(User, 'searchProfessional', actionValue)
+	.then(function(users) {
+		var searchIds = [];
+		for (var i in users) {
+			searchIds.push(users[i].id);
+		}
+
+		doSearching(req, res, searchIds);
+	});
 }
 
-function doSearching(res, searchIds) {
+function doSearching(req, res, searchIds) {
+	/*
 	var searchQuery = { 'data': [{ 'id': '1', 'name' : 'I am Raymande Leano', 'number' : '123456'}, 
 								{ 'id': '2', 'name' : 'Boom Panis!', 'number' : '123456'},
 								{ 'id': '2', 'name' : 'Meeeeeeee!', 'number' : '123456'}] 
 						};
+	*/
+
+	var Q = require('q');
+	var path = require('path');
+	var modelPath =  path.resolve('./', 'models/orm');
+	var User = require(modelPath + '/user')(req.db);
+
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
+	Q.ninvoke(User, 'get', searchIds[0])
+	.then(function(user) {
+		var say = new Say("<speak><prosody rate='70%'>"+ user.short_desc +"</prosody></speak>", null, null, null, null, null);
 
-	var say = new Say("<speak><prosody rate='70%'>"+ searchQuery.data[searchIds[0] - 1].name +"</prosody></speak>", null, null, null, null, null);
+		var choices = new Choices("call, next, end");
+		var arrayString = searchIds.join(',');
 
-	var arrayString = searchIds.join(',');
+		tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
+	  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/processSearch?id="+ arrayString, true);
+	  	res.send(tropowebapi.TropoJSON(tropo));
+	})
+	.fail(function() {
+		tropo.hangup();
+		res.send(tropowebapi.TropoJSON(tropo));
+	});
 
-	var choices = new Choices("call, next, end");
 
-	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
-  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/processSearch?id="+ arrayString, true);
-  	res.send(tropowebapi.TropoJSON(tropo));
 }
 
 function doCall() {
@@ -82,7 +112,7 @@ exports.processSearch = function(req, res) {
 			var ids = req.query.id;
 			var arrayIds = ids.split(',');
 			arrayIds.splice(0,1);
-			doSearching(res, arrayIds);
+			doSearching(req, res, arrayIds);
 		break;
 		case 'call':
 			doCall();
