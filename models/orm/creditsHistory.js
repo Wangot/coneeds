@@ -50,8 +50,19 @@ module.exports = function(db) {
 
   };
 
+  CreditsHistory.consume = function(userId, seconds, _callback) {
+    var secondsPerCredit = 10;
+
+    var consumedValue = Math.ceil(seconds / secondsPerCredit);
+
+    var actualAmount = 0 - consumedValue;
+
+    CreditsHistory.createEntry('consume', actualAmount, userId, _callback);
+
+  };
+
   CreditsHistory.createEntry = function(action, amount, userId, _callback) {
-    var baseEntry = 11391000003;
+    var baseEntry = 11391000005;
     var refCodeIncrement = 1;
 
     CreditsHistory.getLatestHistory(userId, function(err, historyItem) {
@@ -67,10 +78,6 @@ module.exports = function(db) {
           balance = parseInt(historyItem.balance) + amount;
         }
 
-        // console.log(refCode);
-        // console.log(balance);
-        // console.log(amount);
-
         var createHistory = [{
           reference_code  : refCode,
           action          : action,
@@ -78,7 +85,6 @@ module.exports = function(db) {
           user_id         : userId,
           balance         : balance
         }];
-        // console.log(createHistory);
 
         CreditsHistory.create(createHistory, function(err, items) {
           if (err) {

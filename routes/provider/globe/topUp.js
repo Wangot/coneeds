@@ -1,5 +1,6 @@
 module.exports = function(req, res) {
 
+  var Q = require('q');
   var path = require('path'),
       modelsPath = path.resolve('./models/orm'),
       globePath = path.resolve('./libraries/providers/globe');
@@ -9,18 +10,21 @@ module.exports = function(req, res) {
   var configProvider = utilities.config.load('config', 'config-provider');
 
   var User = require(path.join(modelsPath, '/user'))(req.db);
+  var CreditsHistory = require(path.join(modelsPath, '/creditsHistory'))(req.db);
 
   // Use require('globe') if globe is on node_module folder
   var globe = require(globePath+'/globeapi.js')(); // default application version is v1
 
   // Application Settings
-  // var appShortCode = '<APP_SHORT_CODE>'; // full short code
-  // var appId = '<APP_ID>'; // application id
-  // var appSecret = '<APP_SECRET>'; // application secret
+  var liveCodeForHTC = "6kUj6a6BId4Ax5ubjLRnFRan4GspGyA9FxXeq5HAzbRBUMKkd8I7pb8yHjdpRpuxpXnySo9ExBF7oALoH9EGo8tRxrzpsge94Kf68dAMt9MxrLHprpqAuxBRKpu4RTkjaziRaxuGzpBgubexXLH4Gd4ktbB96afr5rR9sKxGektRoAGXHEbEp9FenXpGSqXp5Bue6bR8H57kAjIBGb8EUxGeyaHkMypnFxonakspnL4BFyLABbuRAaApIqEqakUn";
 
-  var appShortCode = configProvider.globe.short_code;
-  var appId = configProvider.globe.app_id; // application id
-  var appSecret = configProvider.globe.app_secret; // application secret
+  var appShortCode = "21581139"; // full short code
+  var appId = "yk6pAsRzMMeCb5cpa9iMnGC8k6bosa6x"; // application id
+  var appSecret = "f407a9828451c8b7a7b9e80ead9a1b4b1bf378ccecc3215f5976a791ae69bdc8"; // application secret
+
+  // var appShortCode = configProvider.globe.short_code;
+  // var appId = configProvider.globe.app_id; // application id
+  // var appSecret = configProvider.globe.app_secret; // application secret
 
   // Getting the login url
   var auth = globe.Auth(appId, appSecret);
@@ -30,8 +34,8 @@ module.exports = function(req, res) {
 
   // check the code
   if (!code) {
-      response.writeHead(400); // Bad Request
-      response.end('No code query!');
+      res.writeHead(400); // Bad Request
+      res.end('No code query!');
       return;
   }
 
@@ -56,19 +60,46 @@ module.exports = function(req, res) {
           // });
 
           // Build up Payment
-          var payment = globe.Payment(subscriberNumber, accessToken);
-  //        payment.setLogger(console); // uncomment to log request
-          var refCode = '11391000001'; // ref code
-          var amount = '1.00'; // set amount to 0.00 as charge amount
 
-          // Charge the subscriber
-          payment.charge(amount, refCode, function(req, res) {
-              console.log('Payment Response:', res.body);
+          var thisUser, latestHistory;
+          Q.ninvoke(User, 'find', {number:subscriberNumber})
+          .then(function(users) {
+            if (users.length > 0) {
+              return users[0];
+            } else {
+              throw Error('Invalid subscriber record.');
+            }
+          })
+          .then(function(xUser) {
+            thisUser = xUser;
+
+            return Q.ninvoke(CreditsHistory, 'createEntry', 'top-up', 100, thisUser.id);
+          })
+          .then(function(savedHistory) {
+            latestHistory = savedHistory;
+
+            subscriberNumber = "0" +subscriberNumber.toString();
+            var payment = globe.Payment(subscriberNumber, accessToken);
+           // payment.setLogger(console); // uncomment to log request
+            var refCode = latestHistory.reference_code; // ref code
+            var amount = '1.00'; // set amount to 0.00 as charge amount
+            // console.log(refCode);
+            console.log(subscriberNumber);
+            // Charge the subscriber
+            var xRefCode = 11391000005;
+            payment.charge(amount, xRefCode, function(req, res) {
+                console.log('Payment Response:', res.body);
+            });
+            
+          })
+          .fail(function(err) {
+            console.log(err);
           });
+
       }
   });
 
-  response.writeHead(400); // Bad Request
-  response.end('Topped-Up!');
+  res.writeHead(400); // Bad Request
+  res.end('Topped-Up!');
 
 };

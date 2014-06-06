@@ -22,8 +22,12 @@ module.exports = function attachHandlers (router) {
 
       var creditHistoryModel = require(modelsPath + '/creditsHistory')(req.db);
       
-      creditHistoryModel.createEntry('consume', -100, 1, function(err, savedHistory) {
-        console.log(err, savedHistory);
+      // creditHistoryModel.createEntry('consume', -100, 1, function(err, savedHistory) {
+      //   console.log(err, savedHistory);
+      // });
+
+      creditHistoryModel.consume(1, 23, function(err, data) {
+        console.log(err, data);
       });
 
       res.writeHead(400); // Bad Request
