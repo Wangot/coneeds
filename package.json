@@ -13,7 +13,10 @@
   "dependencies" : {
     "easyrtc"   : "*",
     "express"   : "*",
-    "socket.io" : "0.9.x"
+    "socket.io" : "0.9.x",
+    "mysql": "*",
+    "orm": "2.1.1",
+    "q": "~1.0.0"
   },
 
   "license"     : "BSD2",

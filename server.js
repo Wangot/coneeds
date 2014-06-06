@@ -8,6 +8,18 @@ var easyrtc = require("easyrtc");           // EasyRTC external module
 var httpApp = express();
 httpApp.use(express.static(__dirname + "/frontend/"));
 
+var utilities = require('./libraries/g8labs/utilities');
+var config = utilities.config.load('config', 'config');
+/* DATABASE SETUP (using node-orm2) */
+// 1. mysql 
+var ormDB = utilities.db.ormManual(config.db);
+
+// middleware to attach the dbclient to the req obj
+httpApp.use(function (req, res, next) {
+  req.db = ormDB;
+  next();
+});
+
 // Start Express http server on port 8080
 var webServer = http.createServer(httpApp).listen(8080);
 
