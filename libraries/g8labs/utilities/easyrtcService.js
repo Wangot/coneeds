@@ -137,6 +137,10 @@ var onEmitReturnToken = function(connectionObj, socketCallback, next){
 								"status" : profile.status,
 								"number" : profile.number,
 								"id" : profile.id,
+								"short_desc" : profile.short_desc,
+								"avatar" : profile.avatar,
+								"screen_name" : profile.screen_name,
+								"is_professional" : profile.is_professional,
 							};
 						}
 						
