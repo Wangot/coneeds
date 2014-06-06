@@ -83,25 +83,39 @@ function doSearching(req, res, searchIds) {
 
 }
 
-function doCall() {
-	var tropowebapi = require('tropo-webapi');
-	var tropo = new tropowebapi.TropoWebAPI();		
-	tropo.say("Please hold while we transfer your superman call!");
-	var on = [
-	   { "event":"ring",
-	      "say":{
-	         "value":"http://www.phono.com/audio/holdmusic.mp3"
-	      },
-	   }
-	];
-			 
-	var choices = {
-	   "terminator": "#"
-	}
+function doCall(req, res, arrayIds) {
+	var Q = require('q');
+	var path = require('path');
+	var modelPath =  path.resolve('./', 'models/orm');
+	var User = require(modelPath + '/user')(req.db);
 
-	tropo.transfer(["9154980404", "sip:21581127@sip.tropo.com"], null, choices, null, null, null, on, null, null);
-			 
- 	res.send(tropowebapi.TropoJSON(tropo));
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();	
+
+	Q.ninvoke(User, 'get', searchIds[0])
+	.then(function(user) {
+		tropo.say("Please hold while we transfer your superman call!");
+		var on = [
+		   { "event":"ring",
+		      "say":{
+		         "value":"http://www.phono.com/audio/holdmusic.mp3"
+		      },
+		   }
+		];
+				 
+		var choices = {
+		   "terminator": "#"
+		}
+
+		tropo.transfer([user.number, "sip:21581127@sip.tropo.com"], null, choices, null, null, null, on, null, null);
+				 
+	 	res.send(tropowebapi.TropoJSON(tropo));
+	})
+	.fail(function() {
+		tropo.hangup();
+		res.send(tropowebapi.TropoJSON(tropo));	
+	});
+
 }
 
 exports.processSearch = function(req, res) {
@@ -115,7 +129,9 @@ exports.processSearch = function(req, res) {
 			doSearching(req, res, arrayIds);
 		break;
 		case 'call':
-			doCall();
+			var ids = req.query.id;
+			var arrayIds = ids.split(',');
+			doCall(req, res, arrayIds);
 		break;
 		case 'end':
 			var tropowebapi = require('tropo-webapi');
