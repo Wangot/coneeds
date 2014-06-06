@@ -11,8 +11,6 @@ var globe = require(path.resolve('./libraries/providers/globe')+'/globeapi')();
 var helperFunctions = utilities.helperFunctions;
 module.exports = function(request, response) {
 
-	console.log(request);
-	console.log(response);
 	// Application Settings
 	var appShortCode = configProvider.globe.short_code; // full short code
 	var appId = configProvider.globe.app_id; // application id
@@ -53,7 +51,7 @@ module.exports = function(request, response) {
             console.log('Subscriber Number:', subscriberNumber);
 
            	Q.ninvoke(User, 'find', {number:subscriberNumber})
-           	.then(function(users){
+           	.then(function(users) {
            		if (users.length > 0) {
            			return Q.ninvoke(User, 'get', users[0].id);
            		} else {

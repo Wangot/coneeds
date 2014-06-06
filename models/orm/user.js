@@ -53,7 +53,7 @@ module.exports = function(db) {
 
   User.generateOTPCode = function(number) {
 
-    var codeLength = 8;
+    var codeLength = 4;
     var crypto = require('crypto');
     
     // get the salt to a config OR create a salt per user
@@ -73,7 +73,7 @@ module.exports = function(db) {
     // }
 
     var genCodeLength = activationCode.length;
-    activationCode = activationCode.substring(genCodeLength - 10, genCodeLength); 
+    activationCode = activationCode.substring(genCodeLength - codeLength, genCodeLength); 
  
     return activationCode; 
   }
