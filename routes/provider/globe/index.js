@@ -9,5 +9,6 @@ module.exports = function attachHandlers (router) {
     var Voice = require('./voice');
 
     router.post('/globe/voice', Voice.voice);
-    router.post('/globe/voice/search', Voice.search);
+    router.post('/globe/voice/askSearch', Voice.askSearch);
+    router.post('/globe/voice/doSearch', Voice.doSearch);
 };
