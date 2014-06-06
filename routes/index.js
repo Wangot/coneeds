@@ -106,7 +106,7 @@ var dashboard = function(req, res) {
 
 var login = function(request, response) {
   var User = require(path.join(modelsPath, '/user'))(request.db);
-  var subscriberNumber, otpCode;
+  var subscriberNumber, code;
 
   var appShortCode = configProvider.globe.short_code; // full short code
   var appId = configProvider.globe.app_id; // application id
@@ -149,10 +149,10 @@ var login = function(request, response) {
     return Q.ninvoke(user, 'save');
   })
   .then(function(savedUser){
-
+    code = savedUser.code;
     var deferred = Q.defer();
 
-    auth.getAccessToken(savedUser.code, function(req, res) {
+    auth.getAccessToken(code, function(req, res) {
       var data = res.body;
       // we assumed that the request is successful
       if (res.statusCode === 200 && data && data['access_token']) {
