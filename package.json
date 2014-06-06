@@ -22,7 +22,10 @@
     "ejs-locals": "*",
     "tropo-webapi-node": "git+https://github.com/tropo/tropo-webapi-node",
     "cookie-parser":"*",
-    "express-session":"*"
+    "express-session":"*",
+    "async": "0.2.x",
+    "underscore": "1.5.x"
+
   },
 
   "license"     : "BSD2",
