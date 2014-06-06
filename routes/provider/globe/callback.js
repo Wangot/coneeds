@@ -1,5 +1,6 @@
 var path = require('path')
-  , coneedsAPI = require(path.resolve('./models/api'));
+  , coneedsAPI = require(path.resolve('./models/api'))
+  , modelsPath = path.resolve('./models/orm');
 
 var Q = require('q');
 var utilities = require(path.resolve('./libraries/g8labs/utilities'));
