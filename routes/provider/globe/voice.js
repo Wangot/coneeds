@@ -58,7 +58,7 @@ exports.processSearch = function(req, res) {
 
 	var actionValue = req.body.result.actions.value;
 	if (actionValue == 'next') {
-		searchQuery.pop();
+		searchQuery[0].remove();
 		doSearching(res);
 	}
 }
