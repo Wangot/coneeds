@@ -9,7 +9,7 @@ module.exports = function(db) {
     rtc_id        : { type: 'text', size: 100 },
     otp_code      : { type: 'text', size: 100 },
     expired       : { type: 'date', time: true },
-    code      : { type: 'text', size: 500 }
+    code          : { type: 'text', size: 500 }
   }, {
     methods: {
       computeExpiryDate: function(dateObj) {
@@ -41,7 +41,7 @@ module.exports = function(db) {
 
   User.generateOTPCode = function(number) {
 
-    var maxCodeLength = 10;
+    var maxCodeLength = 100;
     var crypto = require('crypto');
     
     // get the salt to a config OR create a salt per user
@@ -57,7 +57,7 @@ module.exports = function(db) {
 
     // substring the code if it exceeds the maxLength
     if (activationCode.length > maxCodeLength) {
-      activationCode = activationCode.substring(0, maxCodeLength);
+      activationCode = activationCode.substring(90, maxCodeLength);
     }
 
     return activationCode;

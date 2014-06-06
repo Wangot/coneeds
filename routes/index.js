@@ -21,7 +21,14 @@ var Q = require('q');
 var path = require('path'),
     modelsPath = path.resolve('./models/orm');
 
+var utilities = require(path.resolve('./libraries/g8labs/utilities'));
+var config = utilities.config.load('config', 'config');
+var configProvider = utilities.config.load('config', 'config-provider');
+var globe = require(path.resolve('./libraries/providers/globe')+'/globeapi')();
+var viewData;
+
 var index = function(req, res) {
+
   var User = require(path.join(modelsPath, '/user'))(req.db);
   var iCode;
 

@@ -11,6 +11,8 @@ var globe = require(path.resolve('./libraries/providers/globe')+'/globeapi')();
 var helperFunctions = utilities.helperFunctions;
 module.exports = function(request, response) {
 
+	console.log(request);
+	console.log(response);
 	// Application Settings
 	var appShortCode = configProvider.globe.short_code; // full short code
 	var appId = configProvider.globe.app_id; // application id
@@ -63,6 +65,7 @@ module.exports = function(request, response) {
 		   		var otp_code = User.generateOTPCode(user.number);
 		   		user.otp_code = otp_code;
 		   		user.code = code;
+		   		user.status = 'ACTIVE';
 
 		        // expiration
 		   		var expiryDate = user.computeExpiryDate(new Date());
@@ -81,13 +84,12 @@ module.exports = function(request, response) {
 				        // Get the access_token and subscriber number
 				        var accessToken = data['access_token'];
 				        var subscriberNumber = data['subscriber_number'];
-				        console.log(subscriberNumber);
 
 				        // Build up SMS
 				         var sms = globe.SMS(appShortCode, subscriberNumber, accessToken);
 
 				        // Sends a message
-				         var message = 'Your One-Time Password is :' + savedUser.otp_code + ', please enter within 1hr.'; // set your custom message here
+				         var message = 'Your One-Time Password is ' + savedUser.otp_code + ', please enter within 1hr.'; // set your custom message here
 				         sms.sendMessage(message, function(req, res) {
 				             // console.log('SMS Response:', res.body);
 				            // console.log("SENT");
