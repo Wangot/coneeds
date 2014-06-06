@@ -199,12 +199,12 @@ var login = function(request, response) {
     if (promise.error && promise.error == true) {
       throw new Error("Unable to send message.")
     } else {
-      response.redirect('http://coneeds.98labs.com:8080?code='+code);
+      response.redirect('/?code='+code);
     }
   })
   .fail(function(err) {
     console.log(err);
-    response.redirect('http://coneeds.98labs.com:8080?failedLogin=true&message='+err.message);
+    response.redirect('/?failedLogin=true&message='+err.message);
   });
 
 }
