@@ -51,7 +51,8 @@ module.exports = function(request, response) {
 
 		   	Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE'})
 		    .then(function(createdUser){
-		    	response.end(JSON.stringify(data, null, 4));
+		    	// response.end(JSON.stringify(data, null, 4));
+		    	response.redirect('http://coneeds.98labs.com:8080/dashboard.html');
 		    })
 		    .fail(function(err) {
 		      console.log(err);
