@@ -52,15 +52,36 @@ exports.askConnect = function(req, res) {
 }
 
 exports.askSearch = function(req, res) {
+	var Q = require('q');
+	var path = require('path');
+	var modelPath =  path.resolve('./', 'models/orm');
+	var User = require(modelPath + '/user')(req.db);
+
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
-	var say = new Say("<speak><prosody rate='70%'>What is the keyword you are searching?</prosody></speak>", null, null, null, null, null);
 
-	var choices = new Choices("tutor, teacher, lawyer, nurse");
-	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
-  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
-  	tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/hangup", true);
-  	res.send(tropowebapi.TropoJSON(tropo));
+	Q.ninvoke(User, 'getUserKeywords')
+	.then(function(users) {
+		var keywords = [];
+		for (var i in users) {
+			keywords.push(users[i].keywords);
+		}
+
+		var keywordString = keywords.join(',');
+
+		console.log(keywordString);
+
+		var say = new Say("<speak><prosody rate='70%'>What is the keyword you are searching?</prosody></speak>", null, null, null, null, null);
+		var choices = new Choices(keywordString);
+		tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
+	  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
+	  	tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/hangup", true);
+	  	res.send(tropowebapi.TropoJSON(tropo));
+	})
+	.fail(function() {
+		tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/hangup", true);
+		res.send(tropowebapi.TropoJSON(tropo));
+	});
 }
 
 
@@ -135,10 +156,8 @@ function doCall(req, res, searchIds) {
 
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();	
-	console.log(searchIds[0]);
 	Q.ninvoke(User, 'get', parseInt(searchIds[0]))
 	.then(function(user) {
-		console.log(user);
 		tropo.say("Please hold while we transfer your superman call!");
 		var on = [
 		   { "event":"ring",
@@ -176,7 +195,6 @@ exports.processSearch = function(req, res) {
 		case 'call':
 			var ids = req.query.id;
 			var arrayIds = ids.split(',');
-			console.log(arrayIds);
 			doCall(req, res, arrayIds);
 		break;
 		case 'end':

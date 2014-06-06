@@ -95,6 +95,16 @@ module.exports = function(db) {
     });
 
   };
+
+  User.getUserKeywords = function(_callback) {
+    var maxResults = 5;
+
+    var query = "SELECT * from `user` LIMIT " + maxResults;
+
+    db.driver.execQuery(query, function(err, queryResult){
+      _callback(err, queryResult);
+    });    
+  }
   
   return User;
 }
