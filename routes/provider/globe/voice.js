@@ -43,7 +43,7 @@ exports.askConnect = function(req, res) {
 	var tropo = new tropowebapi.TropoWebAPI();
 	var say = new Say("<speak><prosody rate='70%'>Please enter the I..D..</prosody></speak>", null, null, null, null, null);
 
-	var choices = new Choices("[2 DIGITS]", "dtmf", "#");
+	var choices = new Choices("[1 DIGIT]", "dtmf", "#");
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
   	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doConnect", true);
   	tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/hangup", true);
