@@ -34,7 +34,7 @@ exports.askSearch = function(req, res) {
 }
 
 exports.doSearch = function(req, res) {
-	var searchQuery = [{'description' : 'test', 'number' : '123456'},];
+	var searchQuery = [{'description' : 'I am Raymande Leano, Boom Panis!', 'number' : '123456'},];
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
 
