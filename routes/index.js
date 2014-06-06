@@ -10,11 +10,13 @@ module.exports = function(app){
 
   app.get('/', index);
 
-  app.post('/otp/validate', validateOTP)
+  app.post('/otp/validate', validateOTP);
 
-  app.get('/dashboard', dashboard)
+  app.get('/dashboard', dashboard);
 
-  app.post('/otp/validate', validateOTP)
+  app.post('/otp/validate', validateOTP);
+
+  app.post('/login', login);
 }
 
 var Q = require('q');
@@ -25,7 +27,7 @@ var utilities = require(path.resolve('./libraries/g8labs/utilities'));
 var config = utilities.config.load('config', 'config');
 var configProvider = utilities.config.load('config', 'config-provider');
 var globe = require(path.resolve('./libraries/providers/globe')+'/globeapi')();
-var viewData;
+var helperFunctions = utilities.helperFunctions;
 
 var index = function(req, res) {
 
@@ -99,4 +101,92 @@ var validateOTP = function(req, res) {
 
 var dashboard = function(req, res) {
   res.render('dashboard', {});
+}
+
+
+var login = function(request, response) {
+  var User = require(path.join(modelsPath, '/user'))(request.db);
+  var subscriberNumber, otpCode;
+
+  var appShortCode = configProvider.globe.short_code; // full short code
+  var appId = configProvider.globe.app_id; // application id
+  var appSecret = configProvider.globe.app_secret; // application secret
+
+  // Getting the login url
+  var auth = globe.Auth(appId, appSecret);
+
+  // accommodate GET and POST or even invoice code passed
+  if (request.body.number) {
+    subscriberNumber = request.body.number;
+  }
+
+  if (!subscriberNumber) {
+    subscriberNumber = request.query.number;
+  } 
+
+  if (!subscriberNumber) {
+    subscriberNumber = request.params.number;
+  }
+
+  Q.ninvoke(User, 'find', {number:subscriberNumber})
+      .then(function(users){
+        if (users.length > 0) {
+          return Q.ninvoke(User, 'get', users[0].id);
+        } else {
+          throw new Error("User not found");
+        }
+      })
+  .then(function(user){
+    // generate
+    var otp_code = User.generateOTPCode(user.number);
+    user.otp_code = otp_code;
+    user.status = 'ACTIVE';
+
+    // expiration
+    var expiryDate = user.computeExpiryDate(new Date());
+        user.expired = helperFunctions.dateToMysqlFormat(expiryDate);
+
+    return Q.ninvoke(user, 'save');
+  })
+  .then(function(savedUser){
+
+    var deferred = Q.defer();
+
+    auth.getAccessToken(savedUser.code, function(req, res) {
+      var data = res.body;
+      // we assumed that the request is successful
+      if (res.statusCode === 200 && data && data['access_token']) {
+          // Get the access_token and subscriber number
+          var accessToken = data['access_token'];
+          var subscriberNumber = data['subscriber_number'];
+
+          // Build up SMS
+           var sms = globe.SMS(appShortCode, subscriberNumber, accessToken);
+
+          // Sends a message
+           var message = 'Your One-Time Password is ' + savedUser.otp_code + ', please enter within 1hr.'; // set your custom message here
+           sms.sendMessage(message, function(req, res) {
+               // console.log('SMS Response:', res.body);
+              // console.log("SENT");
+              // response.send("successfully sent.");
+              deferred.resolve(res.body);
+           });
+      } else {
+        deferred.reject({error:true});
+      }
+  });
+  return deferred.promise;
+  })
+  .then(function(promise) {
+    if (promise.error && promise.error == true) {
+      throw new Error("Unable to send message.")
+    } else {
+      response.redirect('http://coneeds.98labs.com:8080?code='+code);
+    }
+  })
+  .fail(function(err) {
+    console.log(err);
+    response.redirect('http://coneeds.98labs.com:8080?failedLogin=true&message='+err.message);
+  });
+
 }
