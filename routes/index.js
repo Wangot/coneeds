@@ -18,6 +18,8 @@ module.exports = function(app){
 
   app.post('/login', login);
 
+  app.get('/logout', logout);
+
   app.get('/testSearch', function(req, res) {
 
     var path = require('path'), 
@@ -205,4 +207,12 @@ var login = function(request, response) {
     response.redirect('http://coneeds.98labs.com:8080?failedLogin=true&message='+err.message);
   });
 
+}
+
+var logout = function(req, res) {
+  if (req.session.user) {
+    req.session.user = null;
+  }
+
+  res.redirect('/');
 }
