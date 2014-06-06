@@ -14,7 +14,6 @@ var utilities = require('./libraries/g8labs/utilities');
 var config = utilities.config.load('config', 'config');
 /* DATABASE SETUP (using node-orm2) */
 // 1. mysql 
-console.log(config.db);
 var ormDB = utilities.db.ormManual(config.db);
 
 // middleware to attach the dbclient to the req obj
