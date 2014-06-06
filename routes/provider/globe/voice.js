@@ -36,7 +36,7 @@ exports.doSearch = function(req, res) {
 	var User = require(modelPath + '/user')(req.db);
 
 	//var actionValue = req.body.result.actions.value;
-	var actionValue = 'tutor';
+	var actionValue = 'teacher';
 
 	Q.ninvoke(User, 'searchProfessional', actionValue)
 	.then(function(users) {
