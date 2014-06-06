@@ -64,10 +64,15 @@ module.exports = function(req, res) {
           payment.charge(amount, lastRefCode.toString(), function(req, res) {
             console.log('Payment Response:', res.body);
 
-            CreditsHistory.createEntry('top-up', 100, thisUser.id, function(err, data) {
-              console.log(err, data);
+            if (res.body.error) {
               res.redirect('/dashboard');
-            });
+            } else {
+              CreditsHistory.createEntry('top-up', 100, thisUser.id, function(err, data) {
+                console.log(err, data);
+                res.redirect('/dashboard');
+              });
+            }
+
 
           });
 
