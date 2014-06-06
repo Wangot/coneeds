@@ -1,10 +1,10 @@
 {
   "db": {
-    "database": "coneeds_dev",
+    "database": "coneeds",
     "protocol": "mysql",
     "host": "localhost",
     "port": "3306",
-    "user": "coneeds_dev",
-    "password": "coneeds_dev"
+    "user": "coneeds",
+    "password": "coneeds"
   }
 }
