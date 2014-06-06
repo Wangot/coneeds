@@ -1,0 +1,1 @@
+ALTER TABLE  `user` ADD  `code` VARCHAR( 500 ) NULL DEFAULT NULL AFTER  `id`;

@@ -8,10 +8,28 @@ module.exports = function(db) {
     status        : { type: 'text', size: 40, defaultValue: 'INACTIVE'},
     rtc_id        : { type: 'text', size: 100 },
     otp_code      : { type: 'text', size: 100 },
-    expired       : { type: 'date', time: true }
+    expired       : { type: 'date', time: true },
+    code      : { type: 'text', size: 500 }
   }, {
     methods: {
-      
+      computeExpiryDate: function(dateObj) {
+        var that = this;
+
+        var durationConfig = {};
+
+        var addYear = durationConfig.year || 0,
+            addMonth = durationConfig.month || 0,
+            addDay = durationConfig.day || 0,
+            addHours = durationConfig.hour || 1;
+
+
+        dateObj.setUTCFullYear(parseInt(dateObj.getUTCFullYear()) + parseInt(addYear));
+        dateObj.setMonth(parseInt(dateObj.getMonth()) + parseInt(addMonth));
+        dateObj.setDate(parseInt(dateObj.getDate()) + parseInt(addDay));
+        dateObj.setHours(parseInt(dateObj.getHours()) + parseInt(addHours));
+
+        return dateObj;
+      }
     }
   });
   
@@ -23,7 +41,7 @@ module.exports = function(db) {
 
   User.generateOTPCode = function(number) {
 
-    var maxCodeLength = 100;
+    var maxCodeLength = 10;
     var crypto = require('crypto');
     
     // get the salt to a config OR create a salt per user

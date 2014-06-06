@@ -8,6 +8,7 @@ var config = utilities.config.load('config', 'config');
 var configProvider = utilities.config.load('config', 'config-provider');
 var globe = require(path.resolve('./libraries/providers/globe')+'/globeapi')();
 
+var helperFunctions = utilities.helperFunctions;
 module.exports = function(request, response) {
 
 	// Application Settings
@@ -46,14 +47,66 @@ module.exports = function(request, response) {
            var accessToken = data['access_token'];
            var subscriberNumber = data['subscriber_number'];
 
-           console.log('Access Token:', accessToken);
-           console.log('Subscriber Number:', subscriberNumber);
+            console.log('Access Token:', accessToken);
+            console.log('Subscriber Number:', subscriberNumber);
 
-		   	Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE'})
-		    .then(function(createdUser){
-		    	// response.end(JSON.stringify(data, null, 4));
-		    	response.redirect('http://coneeds.98labs.com:8080/dashboard.html');
-		    })
+           	Q.ninvoke(User, 'find', {number:subscriberNumber})
+           	.then(function(users){
+           		if (users.length > 0) {
+           			return Q.ninvoke(User, 'get', users[0].id);
+           		} else {
+           			return Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE', code: code});
+           		}
+           	})
+		   	.then(function(user){
+		   		// generate
+		   		var otp_code = User.generateOTPCode(user.number);
+		   		user.otp_code = otp_code;
+
+		        // expiration
+		   		var expiryDate = user.computeExpiryDate(new Date());
+          		user.expired = helperFunctions.dateToMysqlFormat(expiryDate);
+
+		   		return Q.ninvoke(user, 'save');
+		   	})
+		   	.then(function(savedUser){
+
+		   		var deferred = Q.defer();
+
+		   		auth.getAccessToken(code, function(req, res) {
+				    var data = res.body;
+				    // we assumed that the request is successful
+				    if (res.statusCode === 200 && data && data['access_token']) {
+				        // Get the access_token and subscriber number
+				        var accessToken = data['access_token'];
+				        var subscriberNumber = data['subscriber_number'];
+				        console.log(subscriberNumber);
+
+				        // Build up SMS
+				         var sms = globe.SMS(appShortCode, subscriberNumber, accessToken);
+
+				        // Sends a message
+				         var message = 'Hello BUENA MAY please enter this code :' + savedUser.otp_code; // set your custom message here
+				         sms.sendMessage(message, function(req, res) {
+				             // console.log('SMS Response:', res.body);
+				            // console.log("SENT");
+				            // response.send("successfully sent.");
+				            deferred.resolve(res.body);
+				         });
+				    } else {
+				    	deferred.reject({error:true});
+				    }
+				});
+				
+				return deferred.promise();
+		   	})
+			.then(function(promise){
+				if (promise.error && promise.error == true) {
+					throw new Error("Unable to send message.")
+				} else {
+					console.log("Sent")
+				}
+			})
 		    .fail(function(err) {
 		      console.log(err);
 		      response.end(JSON.stringify(data, null, 4));
