@@ -1,0 +1,13 @@
+<div class="col-md-4">
+    <div class="pro text-center">
+        <h5><%= professional.screen_name ? professional.screen_name : 'The Professional' %></h5>
+        <img src="<%= professional.avatar ? professional.avatar : 'resources/assets/images/imageProfile.png' %>" class="img-responsive"/>
+        <p class="desc"><%= professional.short_desc ? professional.short_desc : 'No Description Available' %></p>
+        <ul class="buttons">
+            <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#login-modal"><i class="fa fa-phone"></i></a></li>    
+            <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href="" data-toggle="modal" data-target="#login-modal"><i class="fa fa-video-camera"></i></a></li>    
+            <li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href="" data-toggle="modal" data-target="#login-modal"><i class="fa fa-comments-o"></i></a></li>    
+            <li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href="" data-toggle="modal" data-target="#login-modal"><i class="fa fa-plus-circle"></i></a></li>    
+        </ul>
+    </div>    
+ </div>

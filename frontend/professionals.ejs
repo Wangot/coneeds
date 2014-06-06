@@ -1,0 +1,84 @@
+<% layout('inner-layout') -%>
+<div class="body-content">
+   <div id="banner"></div>
+   <div class="container">
+        <div class="col-md-4">
+              <div id="search-form" class="col-md-12 no-padding">
+                  <div class="header"><h4>SEARCH PROFFESSIONALS</h4></div>
+                  <form method="GET" action="/professionals">
+                      <div class="form-group">
+                        <label>KEYWORDS</label>
+                        <input name="keywords" type="text" class="form-control" placeholder="ex: lawyer" value="<%= params.keywords ? params.keywords : '' %>">
+                      </div>   
+	                      <div class="form-group">
+                        <label>CATEGORY</label>
+                        <select name="category" >
+                          <option value="">ALL</option>
+						  <option value="lawyer" <%= (params.category == 'lawyer' ? 'selected' : '') %> >Lawyer (Profession)</option>
+						  <option value="education" <%= (params.category == 'education' ? 'selected' : '') %> >Education</option>
+						  <option value="government" <%= (params.category == 'government' ? 'selected' : '') %> >Government Agencies</option>
+						  <option value="hotlines" <%= (params.category == 'hotlines' ? 'selected' : '') %> >Hotlines</option>
+						</select>
+                      </div>
+                      
+                      <div class="form-group">
+                         <button type="submit" class="btn submit">SEARCH</button>
+                      </div>
+                  </form>    
+              </div>
+        </div>
+        
+        <!-- CONTENT -->
+        <div class="content col-md-8 no-padding">
+        
+            <!-- Search Results -->
+            <div id="search-result" class="col-md-12 no-padding">
+                <div class="header">
+                    <div class="category-list">
+                        <div class="line col-md-3"></div>        
+                        <div class="col-md-6"><h2 class="text-center">SEARCH RESULTS</h2></div>        
+                        <div class="line col-md-3"></div> 
+                        <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div> 
+                </div>
+                <div class="list container">
+                <%- partial('partials/_professional', {as: 'professional', collection: professionals}) %>
+                </div>
+            </div>
+       </div>
+
+       <!-- LOGIN MODAL -->
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Login</h4>
+                <p>Please enter your mobile phone number. We will send you a text message with a <b>One-Time Security Password</b>.</p>
+              </div>
+              <div class="modal-body">
+                <form action="/login" method="POST">
+                    <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                              Country
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Philippines (+ 63)</a></li>
+                              <li><a href="#">Spain (+ 34)</a></li>
+                            </ul>
+                          </div>
+                            <input type="text" class="form-control" placeholder="ex: 9xxxxxxx" name="number">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <input type="submit" class="btn submit" value="LOGIN"/>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>

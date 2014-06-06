@@ -35,6 +35,8 @@ module.exports = function(app){
     res.send('test');
   });
 
+  app.get('/professionals', professionals);
+
 }
 
 var Q = require('q');
@@ -215,4 +217,22 @@ var logout = function(req, res) {
   }
 
   res.redirect('/');
+}
+var professionals = function(req, res) {
+  var User = require(path.join(modelsPath, '/user'))(req.db);
+  var coneedsAPI = require(path.resolve('./models/api'));
+  var params = req.query;
+
+  var filter = coneedsAPI.user.filterList(params);
+
+  User.find(filter, function(err, users) {
+    if(err) {
+      console.log(err);
+      // res.send(new ApiReturn(false, err, message.ERROR, params));
+    }
+
+    // res.send(new ApiReturn(true, users, message.DATA_SUCCESSFULLY_RETRIEVED, params));
+    res.render('professionals', {professionals:users, user: null, params:params});
+  });
+  
 }
