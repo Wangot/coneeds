@@ -285,11 +285,11 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 40px;
 }
 
-#videocall-modal .close {
+#videocall-modal .close, #call-modal .close {
     padding-top: 15px;
 }
 
-#videocall-modal .modal-header {
+#videocall-modal .modal-header, #call-modal .modal-header {
     text-align: left;
     width: 95%;
     margin: 0 auto;
@@ -391,8 +391,19 @@ h1, h2, h3, h4, h5, h6 {
     background: none;
     margin-top: 220px;
     
-     
-	    
+}
+
+#call-modal .modal-body .container {
+    margin-top: 25px;
+    color: #263248;
+}
+
+#call-modal .modal-body .container h4 {
+    font-weight: 600;
+}
+
+#call-modal .modal-body .container img {
+    margin: 0 auto;
 }
 
 /* CONTENT */

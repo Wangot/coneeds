@@ -95,8 +95,8 @@
                             <p class="desc">Nam sit amet erat nec risus lobortis rutrum.</p>
                             <ul class="buttons">
                                 <li data-toggle="tooltip" data-placement="bottom" title="Message"><a href=""><i class="fa fa-envelope"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href=""><i class="fa fa-phone"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href=""  data-toggle="modal" data-target="#videocall-modal"><i class="fa fa-video-camera"></i></a></li>    
+                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#call-modal"><i class="fa fa-phone"></i></a></li>    
+                                <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href="" data-toggle="modal" data-target="#videocall-modal"><i class="fa fa-video-camera"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href=""><i class="fa fa-comments-o"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href=""><i class="fa fa-plus-circle"></i></a></li>    
                             </ul>
@@ -110,7 +110,7 @@
                               <p class="desc">Nam sit amet erat nec risus lobortis rutrum.</p>
                               <ul class="buttons">
                                   <li data-toggle="tooltip" data-placement="bottom" title="Message"><a href=""><i class="fa fa-envelope"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href=""><i class="fa fa-phone"></i></a></li>    
+                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#call-modal"><i class="fa fa-phone"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href=""  data-toggle="modal" data-target="#videocall-modal"><i class="fa fa-video-camera"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href=""><i class="fa fa-comments-o"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href=""><i class="fa fa-plus-circle"></i></a></li>    
@@ -125,7 +125,7 @@
                             <p class="desc">Nam sit amet erat nec risus lobortis rutrum.</p>
                             <ul class="buttons">
                                 <li data-toggle="tooltip" data-placement="bottom" title="Message"><a href=""><i class="fa fa-envelope"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href=""><i class="fa fa-phone"></i></a></li>    
+                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#call-modal"><i class="fa fa-phone"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href=""  data-toggle="modal" data-target="#videocall-modal"><i class="fa fa-video-camera"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href=""><i class="fa fa-comments-o"></i></a></li>    
                                 <li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href=""><i class="fa fa-plus-circle"></i></a></li>      
@@ -185,7 +185,12 @@
                     <h4 class="modal-title" id="myModalLabel"><span style="color: #F63D2E">Co</span>Needs</h4>
                   </div>
                   <div class="modal-body">
-                     <div class="screen"></div>
+                     <div class="screen">
+                        <div class=call-"buttons" style="padding-top: 200px;">
+                            <a href="" data-toggle="tooltip" data-placement="bottom" title="Call"><img src="resources/assets/images/call.png"/></a>
+                            <a href="" data-toggle="tooltip" data-placement="bottom" title="Decline"><img src="resources/assets/images/decline.png"/></a>
+                        </div>
+                     </div>
                      <div class="user-view"></div>
                      <div class="chatbox">
                          <div class="col-md-11 no-padding" style="display: inline-block;">
@@ -229,6 +234,29 @@
                             <span class="input-group-addon">SEND</span>
                         </div>
                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- CALL MODAL -->
+            <div class="modal fade" id="call-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"><span style="color: #F63D2E">Co</span>Needs <span style="color: #F63D2E">Call</span></h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="container">
+                        <img src="resources/assets/images/imageProfile.png" class="img-responsive"/>
+                        <h4>Lorem Ipsum Dolor</h4>
+                        <p>11:30</p>
+                        <div class=call-"buttons">
+                            <a href="" data-toggle="tooltip" data-placement="bottom" title="Call"><img src="resources/assets/images/call.png"/></a>
+                            <a href="" data-toggle="tooltip" data-placement="bottom" title="Decline"><img src="resources/assets/images/decline.png"/></a>
+                        </div>
+                    </div>    
                   </div>
                 </div>
               </div>
