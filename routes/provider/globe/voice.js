@@ -33,8 +33,13 @@ exports.askSearch = function(req, res) {
 */
 }
 
+var searchQuery = [{'description' : 'I am Raymande Leano', 'number' : '123456'}, {'description' : 'Boom Panis!', 'number' : '123456'}];
+
 exports.doSearch = function(req, res) {
-	var searchQuery = [{'description' : 'I am Raymande Leano, Boom Panis!', 'number' : '123456'},];
+	doSearching(res);
+}
+
+function doSearching(res) {
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
 
@@ -43,6 +48,17 @@ exports.doSearch = function(req, res) {
 	var choices = new Choices("call, next, end");
 
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
-  	//tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
+  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/processSearch", true);
   	res.send(tropowebapi.TropoJSON(tropo));
+}
+
+exports.processSearch = function(req, res) {
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();
+
+	var actionValue = req.body.result.actions.value;
+	if (actionValue == 'next') {
+		searchQuery.pop();
+		doSearching(res);
+	}
 }
