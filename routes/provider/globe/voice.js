@@ -83,7 +83,7 @@ function doSearching(req, res, searchIds) {
 
 }
 
-function doCall(req, res, arrayIds) {
+function doCall(req, res, searchIds) {
 	var Q = require('q');
 	var path = require('path');
 	var modelPath =  path.resolve('./', 'models/orm');
