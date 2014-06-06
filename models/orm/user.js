@@ -18,6 +18,7 @@ module.exports = function(db) {
     code          : { type: 'text', size: 500 },
     short_desc    : { type: 'text', size: 255 },
     keywords      : { type: 'text', size: 255 },
+	avatar        : { type: 'text', size: 500 },
     screen_name   : { type: 'text', size: 40 },
     lat           : { type: 'coords'},
     lng           : { type: 'coords'},
