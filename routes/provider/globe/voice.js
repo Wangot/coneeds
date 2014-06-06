@@ -53,16 +53,13 @@ function doSearching(res) {
 }
 
 exports.processSearch = function(req, res) {
-	var tropowebapi = require('tropo-webapi');
-	var tropo = new tropowebapi.TropoWebAPI();
-
 	var actionValue = req.body.result.actions.value;
 	/*
 	tropo.say(actionValue);
 	res.send(tropowebapi.TropoJSON(tropo));
 	*/
 	if (actionValue == 'next') {
-		searchQuery[0].remove();
+		delete searchQuery[0];
 		doSearching(res);
 	}
 }
