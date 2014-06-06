@@ -33,13 +33,13 @@ exports.askSearch = function(req, res) {
 */
 }
 
-var searchQuery = [{'description' : 'I am Raymande Leano', 'number' : '123456'}, {'description' : 'Boom Panis!', 'number' : '123456'}];
 
 exports.doSearch = function(req, res) {
-	doSearching(res);
+	var searchQuery = [{'description' : 'I am Raymande Leano', 'number' : '123456'}, {'description' : 'Boom Panis!', 'number' : '123456'}];
+	doSearching(res, searchQuery);
 }
 
-function doSearching(res) {
+function doSearching(res, searchQuery) {
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
 
@@ -60,6 +60,6 @@ exports.processSearch = function(req, res) {
 	*/
 	if (actionValue == 'next') {
 		delete searchQuery[0];
-		doSearching(res);
+		doSearching(res, searchQuery);
 	}
 }
