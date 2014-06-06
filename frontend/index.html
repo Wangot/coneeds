@@ -1,73 +1,205 @@
 <!DOCTYPE html>
-<html class="no-js"> <!--<![endif]-->
+<html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" href="css/main.css">
-		
-		<script src="/socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
-        <script src="js/custom.js"></script>
-		
-		<script>
-			function initializeApplication() {
-
-				easyrtc.setUsername("9277034441");
-				
-				easyrtc.setRoomOccupantListener( roomListener);
-				
-				easyrtc.easyApp("Company_Chat_Line", "client", ["expert"],
-					function(myId) {
-						console.log("My easyrtcid is " + myId);
-					}
-				);
-			}
-			
-			function roomListener(roomName, otherPeers) {
-				
-				console.log(roomName + " Room listener");
-				
-				var participantsDiv = document.getElementById('participants');
-				
-				while (participantsDiv.hasChildNodes()) {
-					participantsDiv.removeChild(participantsDiv.lastChild);
-				}
-				
-				for(var i in otherPeers) {
-					var button = document.createElement('button');
-					button.onclick = function(easyrtcid) {
-						return function() {
-							performCall(easyrtcid);
-						}
-					}(i);
-
-					label = document.createTextNode(i);
-					button.appendChild(label);
-					participantsDiv.appendChild(button);
-				}
-				
-			}
-			
-			function performCall(easyrtcid) {
-				easyrtc.call(
-					easyrtcid,
-					function(easyrtcid) { console.log("completed call to " + easyrtcid); },
-					function(errorMessage) { console.log("err:" + errorMessage); },
-					function(accepted, bywho) {
-						console.log((accepted?"accepted":"rejected")+ " by " + bywho);
-					}
-				);
-			}
-		</script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="resources/assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
+        <link href='resources/assets/css/style.css' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>   
     </head>
-    <body onload="initializeApplication();">
-        <video  id="client" width="300" height="200" muted="muted"></video>
-		<video  id="expert" width="300" height="200" muted="muted"></video>
+    <body>
+		<div id="header" class="navbar navbar-fixed-top">
+	        <div class="navbar-inner">
+	            <div class="container">
+	                <div class="navbar-header">
+	                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	                        <span class="fa fa-reorder fa-2x" style="color: #fff"></span>
+	                    </button>
+	                    <a id="logo" class="navbar-brand" href="#"><span style="color: #F63D2E">Co</span>Needs</a>
+	                </div>
+	                <div id="main-nav" class="navbar-collapse collapse">
+                        <ul id="menu-container" class="nav navbar-nav pull-right">
+                       <!--      <li><a href="#features">Features</a></li> -->
+                            <li><a href="">Contact Us</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#register-modal">Register</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                        </ul>
+	               </div><!--/.nav-collapse -->
+	             </div>
+	          </div>
+        </div>
+	    <div class="body-content">
+	       <div id="home">
+	           <div class="container">
+	               <div class="col-sm-8 col-md-6">
+                        <h1>THE FASTEST WAY TO REACH PROFFESIONALS</h1>
+                        <p>CALL, TEXT, VIDEOCALL AND CHAT WITH THE POTENTIAL PEOPLE IN REAL TIME.</p>
+                        <form>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="I'M LOOKING FOR.... (I.E: LAWYER...)">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                            </div>
+						</form>            
+	               </div>    
+	           </div>
+	       </div>
+	       <div id="features">
+	           <div class="container">
+	               <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <div class="col-xs-4 col-sm-2 col-md-1"><img src="resources/assets/images/smsIcon.png" class="img-responsive"/></div>
+                                <div class="col-xs-8 col-sm-10 col-md-11"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis facilisis risus non blandit lacinia.Interdum et malesuada fames.</p></div>
+					       </div>
+                           <div class="item">
+                                <div class="col-xs-4 col-sm-2 col-md-1"><i class="fa fa-video-camera"></i></div>
+                                <div class="col-xs-8 col-sm-10 col-md-11"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis facilisis risus non blandit lacinia.Interdum et malesuada fames</p></div>
+                           </div>
+                           <div class="item">
+                                <div class="col-xs-4 col-sm-2 col-md-1"><i class="fa fa-phone"></i></div>
+                                <div class="col-xs-8 col-sm-10 col-md-11"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis facilisis risus non blandit lacinia.Interdum et malesuada fames.</p></div>
+                           </div>
+					       
+                        </div>
+					
+					  <!-- Controls -->
+					  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+					    <span class="fa fa-angle-left"></span>
+					  </a>
+					  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+					    <span class="fa fa-angle-right"></span>
+					  </a>
+					</div>
+                </div>
+            </div>
+        </div>   
+        
+        <!-- REGISTER MODAL -->
+        <div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title" id="myModalLabel">Register</h4>
+                <p>Please enter your mobile phone number. A <b>Confirmation Text Message</b> will be sent to your mobile phone.</p>
+		      </div>
+		      <div class="modal-body">
+                <form>
+                    <div class="form-group">
+			     	    <div class="input-group">
+						  <div class="input-group-btn">
+						    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						      Country
+						      <span class="caret"></span>
+						    </button>
+						    <ul class="dropdown-menu">
+						      <li><a href="#">Philippines (+ 63)</a></li>
+						      <li><a href="#">Spain (+ 34)</a></li>
+						    </ul>
+						  </div>
+                            <input type="text" class="form-control" placeholder="ex: 9xxxxxxx">
+						</div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn submit" data-toggle="modal" data-target="#verify-modal">REGISTER</button>
+                    </div>   
+                </form>
+		      </div>
+		    </div>
+		  </div>
+		</div>
 		
-		<div id="participants"> </div>
+		<!-- LOGIN MODAL -->
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Login</h4>
+                <p>Please enter your mobile phone number. We will send you a text message with a <b>One-Time Security Password</b>.</p>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                              Country
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Philippines (+ 63)</a></li>
+                              <li><a href="#">Spain (+ 34)</a></li>
+                            </ul>
+                          </div>
+                            <input type="text" class="form-control" placeholder="ex: 9xxxxxxx">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <button type="button" class="btn submit" data-toggle="modal" data-target="#otp-modal">CONTINUE</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- VERIFICATION MODAL -->
+        <div class="modal fade" id="verify-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Activate your Account</h4>
+                <p>Please enter the confirmation code that was texted to your mobile phone.</p>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Confirmation Code">
+                        <span class="input-group-addon"><i class="fa fa-angle-right fa-2x"></i></span>
+                    </div>
+                    <div class="form-group">
+                        <p style="font-size: 12px;">If you do not receive your confirmation code, please click <b><a href="">here</a></b> to request for a new code.</p>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- VERIFICATION MODAL -->
+        <div class="modal fade" id="otp-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">One-Time Password (OTP)</h4>
+                <p>To further ensure the security, you will be receiving a One-Time Password (OTP) via your registered mobile phone number.</p>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Password">
+                        <span class="input-group-addon"><i class="fa fa-angle-right fa-2x"></i></span>
+                    </div>
+                    <div class="form-group">
+                        <p style="font-size: 12px;">If you do not receive your SMS or your SMS-OTP has expired, please click <b><a href="">here</a></b> to request for a new OTP.</p>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+                
+        
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="resources/assets/js/jquery.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="resources/assets/js/bootstrap.min.js"></script>
     </body>
 </html>
+

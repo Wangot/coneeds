@@ -1,0 +1,463 @@
+@CHARSET "UTF-8";
+
+html, body {
+    -webkit-font-smoothing: antialiased !important;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    background: #E7E7E7;
+    color: #fff;
+    height: 100%;
+}
+
+body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+    margin-right: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans';
+}
+
+.no-padding {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* HEADER */
+#header {
+    margin-top: 30px
+}
+
+#header #logo {
+    font-family: 'Open Sans';
+	text-decoration: none;
+	color: #fff;
+	font-size: 26px;
+	font-weight: 600;
+}
+
+#main-nav ul {
+    margin-top: 5px;
+}
+
+#main-nav ul li a {
+	font-family: 'Open Sans';
+	text-decoration: none;
+	color: #fff;
+	font-weight: 600;
+}
+
+#main-nav ul li a:hover {
+    background: none;
+    color: #F63D2E;
+}
+
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.4;
+}
+
+.modal {
+    overflow: hidden;
+}
+
+/* PROFILE */
+.after-nav {
+    height: 72px;
+}
+
+#header-profile {
+    margin-bottom: 0;
+    padding: 10px;
+    background: #dbdbdb;
+}
+
+#header-profile #logo {
+    font-family: 'Open Sans';
+    text-decoration: none;
+    color: #263248;
+    font-size: 22px;
+    font-weight: 600;    
+}
+
+#header-profile #main-nav ul li a {
+    color: #263248;
+    font-weight: 600;
+}
+
+#banner {
+    background-image: url(../images/slide2.png);
+    background-attachment: fixed;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0px -490px;
+    width: 100%;
+    padding: 40px 0px;
+    height: 200px;
+}
+
+#user-profile {
+    background: #DBDBDB;
+	margin-top: 10px;
+	padding: 30px 10px;
+	color: #263248;
+	font-weight: 600;
+	display: inline-block;
+}
+
+#user-profile h4 {
+    font-weight: 700;
+}
+
+#user-profile p {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #263248;
+}
+
+#search-form {
+    border: 1px solid #a9a9a9;  
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#search-form .header {
+    background: #263248;
+	padding: 7px;
+	text-align: center;
+}
+
+#search-form .header h4 {
+    font-weight: 600;
+}
+
+#search-form form {
+    padding: 25px;
+}
+
+#search-form form label {
+    color: #263248;
+    font-size: 16px;
+    font-weight: 600;
+    display: block;
+}
+
+#search-form select, #search-form input {
+    width: 100%;
+    height: 30px;
+}
+
+#search-form .form-group {
+    margin-bottom: 20px;
+}
+
+#search-form .submit {
+    background: #F63D2E;
+    width: 100%;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 0;
+    font-size: 16px;
+}
+
+.line {
+    border-top: 1px solid #263248;
+    margin-top: 38px;
+    margin-bottom: 25px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+#category {
+    color: #263248;
+}
+
+#category-list h2 {
+    color: #263248;
+    font-weight: 600;
+}
+
+#category .header {
+    width: 100%;
+    display: inline-block;
+    padding-top: 30px;
+}
+
+#category #category-list {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.list {
+    margin-top: 50px;
+}
+
+.list .col-md-6 {
+    padding-bottom: 20px;
+}
+
+.list h4 {
+    font-weight: 600;
+}
+
+.list p {
+    font-weight: 300;
+    font-size: 13px;
+}
+
+/* CONTENT */
+.body-content {
+    height: 100%;
+}
+
+#home {
+    background: url('../images/coneedsImageBg.png') no-repeat;
+    background-size: cover;
+    padding-top: 250px;
+    height: 100%;
+    
+}
+
+#home h1 {
+    font-weight: 700;
+    font-size: 40px;
+}
+
+#home p {
+    color: #f63d2e;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#home input {
+    border: none;
+	height: 40px;
+	font-size: 17px;
+	font-weight: 600;
+	padding: 5px;
+	border-radius: 0;
+}
+
+#home .input-group-addon {
+    background-color: #F63D2E;
+    border: 0;
+    border-radius: 0;
+    font-size: 20px;
+
+}
+
+#features {
+    background: #263248;
+    height: 80px;
+    margin: 0 auto;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    padding-top: 15px;
+}
+
+.carousel-control.right,.carousel-control.left {
+    background-image: none;
+    padding-top: 5px;
+    width: 0;
+    font-size: 26px;
+}
+
+.carousel-inner {
+    margin: 0 auto;
+    width: 85%;
+}
+
+.carousel-inner .item img {
+    margin-right: 5px;
+    max-height: 50px;
+}
+
+.carousel-inner .item img, .carousel-inner .item p {
+    display: inline;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#features .item i {
+    color: #f28b0c;
+    font-size: 45px;
+    margin-right: 15px;
+    text-align: center;
+}
+
+.modal .modal-dialog {
+    width: 530px;
+    padding-top: 120px;
+}
+
+.modal .modal-header {
+    text-align: center;
+    border-bottom: 0;
+    color: #263248;
+}
+
+.modal .modal-title {
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.modal .close {
+    font-weight: 300;
+    color: #444;
+}
+
+.modal .form-group label {
+    color: #444;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.modal .form-group {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.modal .input-group .form-control {
+    margin-right: 5px;
+    border-left: 0;
+    border-radius: 0;
+    height: 40px;
+}
+
+.modal .input-group .btn {
+    height: 40px;
+}
+
+.modal .submit {
+    background: #F63D2E;
+    color: #fff;
+    font-weight: 600;
+    width: 120px;
+}
+
+.modal form p {
+    color: #444;
+    font-weight: 300;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.modal .form-control {
+    border-radius: 0;
+    height: 40px;
+}
+
+.modal .modal-body {
+    padding-bottom: 35px;
+    text-align: center;
+    padding-top: 0;
+}
+
+#login-modal .form-group label {
+    font-size: 14px;
+}
+
+#login-modal .form-group .submit {
+     background: #F63D2E;
+    color: #fff;
+    font-weight: 600;
+    width: 140px;
+}
+
+#login-modal .input-group .form-control {
+    width: 100%;
+}
+
+#otp-modal .input-group, #verify-modal .input-group {
+    width: 80%;
+	margin: 0 auto;
+	border-left: 1px solid #ccc;
+}
+
+#otp-modal .input-group-addon , #verify-modal .input-group-addon {
+    background-color: #F63D2E;
+    border: 0;
+    border-radius: 0;
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 319px) {
+    #home {
+        padding-top: 100px !important;
+    }
+    
+    
+    #home input, .carousel-inner .item p {
+        font-size: 9px !important;
+    }
+    
+    #main-nav ul {
+        float: left !important;
+    }
+    
+    #banner {
+        background-position: 0 -195px !important;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 479px) {
+    #home {
+        padding-top: 140px !important;
+    }    
+    
+    #home input, .carousel-inner .item p {
+        font-size: 9px !important;
+    }
+    
+    #main-nav ul {
+        float: left !important;
+    }
+    
+    #banner {
+        background-position: 0 -195px !important;
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+    #home {
+        padding-top: 180px !important;
+    }
+    
+     #main-nav ul {
+        float: left !important;
+    }
+    
+     #home input, .carousel-inner .item p {
+        font-size: 12px !important;
+    }
+    
+    #banner {
+        background-position: 0 -195px !important;
+    }
+    
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    #home {
+        padding-top: 165px !important;
+    }
+    
+    #banner {
+        background-position: 0 -250px !important;
+    }
+}
+
+@media screen and (width: 1024px) {
+	#home {
+	   padding-top: 180px !important;
+	}
+    
+     #banner {
+        background-position: 0 -250px !important;
+    }
+}
