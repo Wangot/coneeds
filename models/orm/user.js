@@ -61,7 +61,7 @@ module.exports = function(db) {
     // }
 
     var genCodeLength = activationCode.length;
-    activationCode.substring(genCodeLength - 10, genCodeLength); 
+    activationCode = activationCode.substring(genCodeLength - 10, genCodeLength); 
  
     return activationCode; 
   }
