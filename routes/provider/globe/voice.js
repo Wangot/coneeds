@@ -41,7 +41,7 @@ exports.processChoices = function(req, res) {
 exports.askConnect = function(req, res) {
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
-	var say = new Say("<speak><prosody rate='70%'>Please enter the id.</prosody></speak>", null, null, null, null, null);
+	var say = new Say("<speak><prosody rate='70%'>Please enter the I....D....</prosody></speak>", null, null, null, null, null);
 
 	var choices = new Choices("[2 DIGITS]", "dtmf", "#");
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
