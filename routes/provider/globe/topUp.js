@@ -1,5 +1,7 @@
 module.exports = function(req, res) {
 
+  var xRes = res;
+
   var Q = require('q');
   var path = require('path'),
       modelsPath = path.resolve('./models/orm'),
@@ -65,11 +67,11 @@ module.exports = function(req, res) {
             console.log('Payment Response:', res.body);
 
             if (res.body.error) {
-              res.redirect('/dashboard');
+              xRes.redirect('/dashboard');
             } else {
               CreditsHistory.createEntry('top-up', 100, thisUser.id, function(err, data) {
                 console.log(err, data);
-                res.redirect('/dashboard');
+                xRes.redirect('/dashboard');
               });
             }
 
@@ -78,6 +80,8 @@ module.exports = function(req, res) {
 
         });
 
+      } else {
+        xRes.redirect('dashboard');
       }
 
     }); // end auth.getAccessToken
@@ -85,7 +89,7 @@ module.exports = function(req, res) {
   })
   .fail(function(err) {
     console.log(err);
-    res.redirect('/dashboard');
+    xRes.redirect('/dashboard');
   });
 
   // // Application Settings
