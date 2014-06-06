@@ -1,4 +1,4 @@
-module.exports = function(req, res){
+exports.voice = function(req, res){
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
   
@@ -11,7 +11,15 @@ module.exports = function(req, res){
   
   	// Action classes can be passes as parameters to TropoWebAPI class methods.
   	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
-  	//tropo.on("continue", null, "http://test-tropo.herokuapp.com/call", true);
+  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/search", true);
 
   	res.send(tropowebapi.TropoJSON(tropo));
+}
+
+exports.search = function(req, res) {
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();
+	var actionValue = req.body.result.actions.value;
+	tropo.say("You selected" + actionValue);
+	res.send(tropowebapi.TropoJSON(tropo));
 }
