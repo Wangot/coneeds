@@ -1,0 +1,12 @@
+{
+  "globe": {
+    "short_code": "21581111",
+    "app_id": "eqE7XUKdA76CG5cj4kiAXnCGzEXjUkXx",
+    "app_secret": "cce3cffc9c14b1a0a5b6a90b00b0ab6d21e87e8db41691a31aed21e29d10ed97",
+    "voice_app_id": "267",
+    "voice_app_token": "5a6359734a786749414a6670664579686f4352736f4f737a636b464e494d5a626f745a5967596a4578684b50",
+    "redirect_uri":"http://coneeds.98labs.com:8080/globe/callback",
+    "notification_uri":"http://coneeds.98labs.com:8080/globe/notification",
+    "voice_web_api_uri":"http://ampm.herokuapp.com/voice"
+  }
+}

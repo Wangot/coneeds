@@ -1,0 +1,12 @@
+{
+  "globe": {
+    "short_code": "21581139",
+    "app_id": "yk6pAsRzMMeCb5cpa9iMnGC8k6bosa6x",
+    "app_secret": "f407a9828451c8b7a7b9e80ead9a1b4b1bf378ccecc3215f5976a791ae69bdc8",
+    "voice_app_id": "272",
+    "voice_app_token": "697a614d424866615263486f5862504d5670656b5641507472594a5575445266416f68754f535573716f5845",
+    "redirect_uri":"http://coneeds.98labs.com:8080/globe/callback",
+    "notification_uri":"http://coneeds.98labs.com:8080/globe/notification",
+    "voice_web_api_uri":"http://coneeds.98labs.com:8080/globe/voice"
+  }
+}

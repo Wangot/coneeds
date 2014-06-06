@@ -7,5 +7,6 @@ module.exports = {
         
       var configFilename = path.join(path.resolve(filePath), name);
       return require(configFilename);
-    }
+    },
+    
 };
