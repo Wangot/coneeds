@@ -121,7 +121,11 @@ var validateOTP = function(req, res) {
 }
 
 var dashboard = function(req, res) {
-  res.render('dashboard', {user: req.session.user});
+  if (req.session.user == null) {
+    res.redirect('/');
+  } else {
+    res.render('dashboard', {user: req.session.user});
+  }
 }
 
 var login = function(request, response) {
@@ -232,7 +236,7 @@ var professionals = function(req, res) {
     }
 
     // res.send(new ApiReturn(true, users, message.DATA_SUCCESSFULLY_RETRIEVED, params));
-    res.render('professionals', {professionals:users, user: null, params:params});
+    res.render('professionals', {professionals:users, user: req.session.user, params:params});
   });
   
 }
