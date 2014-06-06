@@ -23,12 +23,12 @@ exports.processChoices = function(req, res) {
 	//console.log(actionValue);
 	switch(actionValue) {
 		case '1' : 
-			tropo.say("<speak><prosody rate='70%'>You selected search.</prosody></speak>");
+			tropo.say("<speak><prosody rate='60%'>You selected to search. please wait...</prosody></speak>");
 			tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/askSearch", true);
 			res.send(tropowebapi.TropoJSON(tropo));
 		break;
 		case '2' : 
-			tropo.say("<speak><prosody rate='70%'>You selected connect.</prosody></speak>");
+			tropo.say("<speak><prosody rate='60%'>You selected to connect. please wait...</prosody></speak>");
 			tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/askConnect", true);
 			res.send(tropowebapi.TropoJSON(tropo));			
 		break;
@@ -41,11 +41,11 @@ exports.processChoices = function(req, res) {
 exports.askConnect = function(req, res) {
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
-	var say = new Say("<speak><prosody rate='70%'>Please enter the I....D....</prosody></speak>", null, null, null, null, null);
+	var say = new Say("<speak><prosody rate='70%'>Please enter the I..D..</prosody></speak>", null, null, null, null, null);
 
 	var choices = new Choices("[2 DIGITS]", "dtmf", "#");
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
-  	//tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
+  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doConnect", true);
   	tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/hangup", true);
   	res.send(tropowebapi.TropoJSON(tropo));
 }
@@ -62,6 +62,23 @@ exports.askSearch = function(req, res) {
   	res.send(tropowebapi.TropoJSON(tropo));
 }
 
+
+exports.doConnect = function(req, res) {
+	var Q = require('q');
+	var path = require('path');
+	var modelPath =  path.resolve('./', 'models/orm');
+	var User = require(modelPath + '/user')(req.db);
+
+	var actionValue = req.body.result.actions.value;
+	//var actionValue = 'teacher';
+
+	Q.ninvoke(User, 'get', actionValue)
+	.then(function(user) {
+		var arrIds = [];
+		arrIds.push(user.id);
+		doCall(req, res, arrIds);
+	});
+}
 
 exports.doSearch = function(req, res) {
 	var Q = require('q');
