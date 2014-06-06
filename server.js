@@ -8,6 +8,8 @@ var path = require('path');
 // Setup and configure Express http server. Expect a subfolder called "frontend" to be the web root.
 var httpApp = express();
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 httpApp.set('views', path.join(__dirname, 'frontend')); // routes for views
 var engine = require('ejs-locals'); // view engine
@@ -34,6 +36,9 @@ httpApp.use(function (req, res, next) {
 
 // easy rtc service
 utilities.easyrtcService(easyrtc, ormDB);
+
+httpApp.use(cookieParser());
+httpApp.use(session({secret: '1234567890QWERTY'}));
 
 // Start Express http server on port 8080
 var webServer = http.createServer(httpApp).listen(3000);

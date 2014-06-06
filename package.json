@@ -20,7 +20,9 @@
     "body-parser":"*",
     "ejs": "*",
     "ejs-locals": "*",
-    "tropo-webapi-node": "git+https://github.com/tropo/tropo-webapi-node"
+    "tropo-webapi-node": "git+https://github.com/tropo/tropo-webapi-node",
+    "cookie-parser":"*",
+    "express-session":"*"
   },
 
   "license"     : "BSD2",

@@ -102,6 +102,7 @@ var validateOTP = function(req, res) {
     if (users.length > 0 && users[0].otp_code &&
       users[0].otp_code == otpCode) {
       // res.render('dashboard', {});
+      req.session.user = users[0];
       res.redirect('/dashboard');
     } else {
       res.redirect('/?code='+iCode);
@@ -116,6 +117,7 @@ var validateOTP = function(req, res) {
 }
 
 var dashboard = function(req, res) {
+  console.log(req.session.user);
   res.render('dashboard', {});
 }
 
