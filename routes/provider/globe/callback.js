@@ -55,13 +55,14 @@ module.exports = function(request, response) {
            		if (users.length > 0) {
            			return Q.ninvoke(User, 'get', users[0].id);
            		} else {
-           			return Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE', code: code});
+           			return Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE'});
            		}
            	})
 		   	.then(function(user){
 		   		// generate
 		   		var otp_code = User.generateOTPCode(user.number);
 		   		user.otp_code = otp_code;
+		   		user.code = code;
 
 		        // expiration
 		   		var expiryDate = user.computeExpiryDate(new Date());
@@ -86,7 +87,7 @@ module.exports = function(request, response) {
 				         var sms = globe.SMS(appShortCode, subscriberNumber, accessToken);
 
 				        // Sends a message
-				         var message = 'Hello BUENA MAY please enter this code :' + savedUser.otp_code; // set your custom message here
+				         var message = 'Your One-Time Password is :' + savedUser.otp_code + ', please enter within 1hr.'; // set your custom message here
 				         sms.sendMessage(message, function(req, res) {
 				             // console.log('SMS Response:', res.body);
 				            // console.log("SENT");
@@ -98,13 +99,13 @@ module.exports = function(request, response) {
 				    }
 				});
 				
-				return deferred.promise();
+				return deferred.promise;
 		   	})
 			.then(function(promise){
 				if (promise.error && promise.error == true) {
 					throw new Error("Unable to send message.")
 				} else {
-					console.log("Sent")
+					res.redirect('http://coneeds.98labs.com:8080?otp=1&code='+code);
 				}
 			})
 		    .fail(function(err) {

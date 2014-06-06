@@ -1,0 +1,118 @@
+<!-- REGISTER MODAL -->
+        <div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Register</h4>
+                <p>Please enter your mobile phone number. A <b>Confirmation Text Message</b> will be sent to your mobile phone.</p>
+          </div>
+          <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  Country
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Philippines (+ 63)</a></li>
+                  <li><a href="#">Spain (+ 34)</a></li>
+                </ul>
+              </div>
+                            <input type="text" class="form-control" placeholder="ex: 9xxxxxxx">
+            </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn submit" data-toggle="modal" data-target="#verify-modal">REGISTER</button>
+                    </div>   
+                </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- LOGIN MODAL -->
+        <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Login</h4>
+                <p>Please enter your mobile phone number. We will send you a text message with a <b>One-Time Security Password</b>.</p>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                              Country
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Philippines (+ 63)</a></li>
+                              <li><a href="#">Spain (+ 34)</a></li>
+                            </ul>
+                          </div>
+                            <input type="text" class="form-control" placeholder="ex: 9xxxxxxx">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <button type="button" class="btn submit" data-toggle="modal" data-target="#otp-modal">CONTINUE</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- VERIFICATION MODAL -->
+        <div class="modal fade" id="verify-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Activate your Account</h4>
+                <p>Please enter the confirmation code that was texted to your mobile phone.</p>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Confirmation Code">
+                        <span class="input-group-addon"><i class="fa fa-angle-right fa-2x"></i></span>
+                    </div>
+                    <div class="form-group">
+                        <p style="font-size: 12px;">If you do not receive your confirmation code, please click <b><a href="">here</a></b> to request for a new code.</p>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- VERIFICATION MODAL -->
+        <div class="modal fade" id="otp-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">One-Time Password (OTP)</h4>
+                <p>To further ensure the security, you will be receiving a One-Time Password (OTP) via your registered mobile phone number.</p>
+              </div>
+              <div class="modal-body">
+                <form action="/otp/validate" method="POST">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="otp_code" placeholder="One-Time Password (OTP)">
+                        <span class="input-group-addon"><i class="fa fa-angle-right fa-2x"></i></span>
+                    </div>
+                    <div class="form-group">
+                        <p style="font-size: 12px;">If you do not receive your SMS or your SMS-OTP has expired, please click <b><a href="">here</a></b> to request for a new OTP.</p>
+                    </div>
+                    <input type="hidden" name="code" value="<%= code %>">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>

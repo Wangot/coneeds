@@ -4,10 +4,20 @@ var express = require("express");           // web framework external module
 var io      = require("socket.io");         // web socket external module
 var easyrtc = require("easyrtc");           // EasyRTC external module
 
+var path = require('path');
 // Setup and configure Express http server. Expect a subfolder called "frontend" to be the web root.
 var httpApp = express();
 var bodyParser = require('body-parser');
+
+httpApp.set('views', path.join(__dirname, 'frontend')); // routes for views
+var engine = require('ejs-locals'); // view engine
+httpApp.engine('ejs', engine);
+// httpApp.use("/public", express.static(__dirname + '/views/resources'));
+httpApp.set('view engine', 'ejs');
+// httpApp.use(express.static(path.join(__dirname, '/views/resources'))); // resources
 httpApp.use(express.static(__dirname + "/frontend/"));
+
+
 httpApp.use(bodyParser());
 
 var utilities = require('./libraries/g8labs/utilities');

@@ -17,7 +17,9 @@
     "mysql": "*",
     "orm": "2.1.1",
     "q": "~1.0.0",
-    "body-parser":"*"
+    "body-parser":"*",
+    "ejs": "*",
+    "ejs-locals": "*"
   },
 
   "license"     : "BSD2",
