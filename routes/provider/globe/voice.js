@@ -91,8 +91,8 @@ function doCall(req, res, arrayIds) {
 
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();	
-
-	Q.ninvoke(User, 'get', searchIds[0])
+	console.log(searchIds[0]);
+	Q.ninvoke(User, 'get', parseInt(searchIds[0]))
 	.then(function(user) {
 		console.log(user);
 		tropo.say("Please hold while we transfer your superman call!");
