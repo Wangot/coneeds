@@ -69,6 +69,8 @@ exports.processSearch = function(req, res) {
 			doSearching(res, arrayIds);
 		break;
 		case 'call':
+			var tropowebapi = require('tropo-webapi');
+			var tropo = new tropowebapi.TropoWebAPI();		
 			tropo.say("Please hold while we transfer your superman call!");
 			 var on = [
 			   { "event":"ring",
