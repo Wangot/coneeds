@@ -2,7 +2,10 @@ module.exports = function(app){
 
 	require('./api')(app);
 
-	app.get("/eman",function(req, res) { res.end("hello"); });
+	app.post("/eman",function(req, res) { 
+		console.log(req.body);
+
+		res.end("hello"); });
 
 	app.get('/dbSync', require("./tools/dbSync"));
 }

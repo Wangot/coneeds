@@ -26,7 +26,7 @@ module.exports = {
 
     var filter = this.filterList(params);
 
-    User.find(filter, function(err, users){
+    User.find(filter, function(err, users) {
       if(err) {
         console.log(err);
         res.send(new ApiReturn(false, err, message.ERROR, params));

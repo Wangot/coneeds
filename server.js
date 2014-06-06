@@ -6,7 +6,9 @@ var easyrtc = require("easyrtc");           // EasyRTC external module
 
 // Setup and configure Express http server. Expect a subfolder called "frontend" to be the web root.
 var httpApp = express();
+var bodyParser = require('body-parser');
 httpApp.use(express.static(__dirname + "/frontend/"));
+httpApp.use(bodyParser());
 
 var utilities = require('./libraries/g8labs/utilities');
 var config = utilities.config.load('config', 'config');
@@ -19,6 +21,9 @@ httpApp.use(function (req, res, next) {
   req.db = ormDB;
   next();
 });
+
+// easy rtc service
+utilities.easyrtcService(easyrtc, ormDB);
 
 // Start Express http server on port 8080
 var webServer = http.createServer(httpApp).listen(8080);
