@@ -105,7 +105,7 @@ module.exports = function(request, response) {
 				if (promise.error && promise.error == true) {
 					throw new Error("Unable to send message.")
 				} else {
-					res.redirect('http://coneeds.98labs.com:8080?otp=1&code='+code);
+					response.redirect('http://coneeds.98labs.com:8080?code='+code);
 				}
 			})
 		    .fail(function(err) {
