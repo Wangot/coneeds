@@ -27,3 +27,7 @@ node_modules
 #Portable Setup
 node.exe
 npm.cmd
+
+#sublime
+*.sublime-project
+*.sublime-workspace
