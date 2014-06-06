@@ -2,10 +2,10 @@ exports.voice = function(req, res) {
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
   
-	//tropo.say("<speak><prosody rate='70%'>Welcome to my Tropo Web API demo.</prosody></speak>");
+	tropo.say("<speak><prosody rate='70%'>Welcome to con-needs.</prosody></speak>");
 
   	// Demonstrates how to use the base Tropo action classes.
-  	var say = new Say("<speak><prosody rate='70%'>Enter a number</prosody></speak>", null, null, null, null, null);
+  	var say = new Say("<speak><prosody rate='70%'>to search press 1. to connect press 2. to check your balance press 3.</prosody></speak>", null, null, null, null, null);
 
   	var choices = new Choices("[1 DIGIT]", "dtmf", "#");
   
@@ -25,12 +25,6 @@ exports.askSearch = function(req, res) {
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
   	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
   	res.send(tropowebapi.TropoJSON(tropo));
-
-/*
-	var actionValue = req.body.result.actions.value;
-	tropo.say("You selected" + actionValue);
-	res.send(tropowebapi.TropoJSON(tropo));
-*/
 }
 
 
@@ -58,6 +52,27 @@ function doSearching(res, searchIds) {
   	res.send(tropowebapi.TropoJSON(tropo));
 }
 
+function doCall() {
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();		
+	tropo.say("Please hold while we transfer your superman call!");
+	var on = [
+	   { "event":"ring",
+	      "say":{
+	         "value":"http://www.phono.com/audio/holdmusic.mp3"
+	      },
+	   }
+	];
+			 
+	var choices = {
+	   "terminator": "#"
+	}
+
+	tropo.transfer(["9154980404", "sip:21581127@sip.tropo.com"], null, choices, null, null, null, on, null, null);
+			 
+ 	res.send(tropowebapi.TropoJSON(tropo));
+}
+
 exports.processSearch = function(req, res) {
 	var actionValue = req.body.result.actions.value;
 
@@ -69,24 +84,7 @@ exports.processSearch = function(req, res) {
 			doSearching(res, arrayIds);
 		break;
 		case 'call':
-			var tropowebapi = require('tropo-webapi');
-			var tropo = new tropowebapi.TropoWebAPI();		
-			tropo.say("Please hold while we transfer your superman call!");
-			 var on = [
-			   { "event":"ring",
-			      "say":{
-			         "value":"http://www.phono.com/audio/holdmusic.mp3"
-			      },
-			   }
-			 ];
-			 
-			 var choices = {
-			   "terminator": "#"
-			 }
-
-			 tropo.transfer(["9154980404", "sip:21581127@sip.tropo.com"], null, choices, null, null, null, on, null, null);
-			 
-			 res.send(tropowebapi.TropoJSON(tropo));
+			doCall();
 		break;
 		case 'end':
 			var tropowebapi = require('tropo-webapi');
@@ -95,15 +93,5 @@ exports.processSearch = function(req, res) {
 			res.send(tropowebapi.TropoJSON(tropo));
 		break;
 	}
-
-/*
-	if (actionValue == 'next') {
-	} else if (actionValue == 'end') {
-	}
-
-	if (actionValue == 'call') {
-
-	}
-*/
 
 }
