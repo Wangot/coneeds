@@ -57,8 +57,10 @@ exports.processSearch = function(req, res) {
 	var tropo = new tropowebapi.TropoWebAPI();
 
 	var actionValue = req.body.result.actions.value;
+	tropo.ask(actionValue);
 	if (actionValue == 'next') {
 		searchQuery[0].remove();
 		doSearching(res);
 	}
+	res.send(tropowebapi.TropoJSON(tropo));
 }
