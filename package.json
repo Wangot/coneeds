@@ -19,7 +19,8 @@
     "q": "~1.0.0",
     "body-parser":"*",
     "ejs": "*",
-    "ejs-locals": "*"
+    "ejs-locals": "*",
+    "tropo-webapi-node": "git+https://github.com/tropo/tropo-webapi-node"
   },
 
   "license"     : "BSD2",
