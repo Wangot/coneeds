@@ -22,7 +22,12 @@ module.exports = function(db) {
     screen_name   : { type: 'text', size: 40 },
     lat           : { type: 'coords'},
     lng           : { type: 'coords'},
-    is_professional : Boolean
+    is_professional : Boolean,
+    category      : { type: 'enum', values: ['LAWYER',  
+                                             'EDUCATION',
+                                             'GOVERNMENT',
+                                             'HOTLINES',
+                                           ], defaultValue: 'EDUCATION'}
   }, {
     methods: {
       computeExpiryDate: function(dateObj) {

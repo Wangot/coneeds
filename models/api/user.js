@@ -33,20 +33,20 @@ module.exports = {
       }
 
       // FORMAT the data to be returned
-      var arrTemp = [];
-      users.forEach(function(user){
-        var temp = {
-          id: user.id,
-          number: user.number,
-          status: user.status,
-          otp_code: user.otp_code,
-          expired: user.expired
-        };
+      // var arrTemp = [];
+      // users.forEach(function(user){
+      //   var temp = {
+      //     id: user.id,
+      //     number: user.number,
+      //     status: user.status,
+      //     otp_code: user.otp_code,
+      //     expired: user.expired
+      //   };
 
-        arrTemp.push(temp);
-      });
+      //   arrTemp.push(temp);
+      // });
 
-      res.send(new ApiReturn(true, arrTemp, message.DATA_SUCCESSFULLY_RETRIEVED, params));
+      res.send(new ApiReturn(true, users, message.DATA_SUCCESSFULLY_RETRIEVED, params));
     });
 
   },
@@ -63,6 +63,18 @@ module.exports = {
 
     if (params.rtc_id) {
       filterData.rtc_id = orm.eq(params.rtc_id);
+    }
+
+    if (params.keywords) {
+      filterData.keywords = orm.like(params.keywords);
+    }
+
+    if (params.is_professional) {
+      filterData.is_professional = orm.eq(params.is_professional);
+    }
+
+    if (params.category) {
+      filterData.category = orm.eq(params.category);
     }
 
     return filterData; 
