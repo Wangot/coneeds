@@ -16,4 +16,17 @@ module.exports = function attachHandlers (router) {
     router.post('/globe/voice/hangup', Voice.hangup);
 
     router.get('/topup', require('./topUp'));
+    router.get('/credits', function(req, res) {
+      var path = require('path'),
+          modelsPath = path.resolve('./models/orm');
+
+      var creditHistoryModel = require(modelsPath + '/creditsHistory')(req.db);
+      
+      creditHistoryModel.createEntry('consume', -100, 1, function(err, savedHistory) {
+        console.log(err, savedHistory);
+      });
+
+      res.writeHead(400); // Bad Request
+      res.end('Credits!');
+    });
 };
