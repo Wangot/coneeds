@@ -36,6 +36,25 @@ module.exports = function(db) {
     
   });
 
+  var baseEntry = '11391000010';
+  var refCodeIncrement = 1;
+
+  CreditsHistory.getLastRefCode = function(_callback) {
+
+    var query = "SELECT `reference_code` FROM `credits_history` ORDER BY `created` DESC LIMIT 1";
+
+    db.driver.execQuery(query, function(err, queryResult){
+
+      var lastRefCode = baseEntry;
+      if (queryResult.length == 1) {
+        lastRefCode = queryResult[0].reference_code.toString();
+      }
+
+      _callback(err, lastRefCode);
+    });
+
+  };
+
   CreditsHistory.getLatestHistory = function(userId, _callback) {
 
     CreditsHistory.find({user_id: userId}, ["created", "Z"], 1, function(err, historyItem) {
@@ -62,9 +81,7 @@ module.exports = function(db) {
   };
 
   CreditsHistory.createEntry = function(action, amount, userId, _callback) {
-    var baseEntry = 11391000005;
-    var refCodeIncrement = 1;
-
+    
     CreditsHistory.getLatestHistory(userId, function(err, historyItem) {
       if (err) {
         _callback(err);

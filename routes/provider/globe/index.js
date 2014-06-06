@@ -18,7 +18,9 @@ module.exports = function attachHandlers (router) {
 
     router.post('/globe/voice/hangup', Voice.hangup);
 
-    router.get('/topup', require('./topUp'));
+    // router.get('/topup', require('./topUp'));
+    router.post('/topup', require('./topUp'));
+
     router.get('/credits', function(req, res) {
       var path = require('path'),
           modelsPath = path.resolve('./models/orm');

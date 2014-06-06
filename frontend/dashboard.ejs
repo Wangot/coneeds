@@ -272,13 +272,15 @@
                     <p>Please select your denomination of choice. A <b>Confirmation Text Message</b> will be sent to your mobile phone.</p>
                   </div>
                   <div class="modal-body">
-                    <form>
+                    <form method="post" action="/topup">
+                      <% console.log(user); %>
+                        <input type="hidden" name="userId" value="<%= user.id %>" />
                         <div class="form-group">
                             <select><option value="1">100</option></select>    
                         </div>
                         
                         <div class="form-group">
-                            <button type="button" class="btn submit"">TOP UP</button>
+                            <button type="submit" class="btn submit"">TOP UP</button>
                         </div>
                     </form>
                   </div>
