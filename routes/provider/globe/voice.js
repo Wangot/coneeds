@@ -41,12 +41,12 @@ exports.doSearch = function(req, res) {
 
 function doSearching(res, searchIds) {
 	var searchQuery = { 'data': [{ 'id': '1', 'name' : 'I am Raymande Leano', 'number' : '123456'}, 
-								{ 'id': '2', 'name' : 'Boom Panis!', 'number' : '123456'}] 
+								{ 'id': '2', 'name' : 'Boom Panis!', 'number' : '123456'},
+								{ 'id': '2', 'name' : 'Meeeeeeee!', 'number' : '123456'}] 
 						};
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
 
-	
 	var say = new Say("<speak><prosody rate='70%'>"+ searchQuery.data[searchIds[0] - 1].name +"</prosody></speak>", null, null, null, null, null);
 
 	var arrayString = searchIds.join(',');
@@ -60,10 +60,6 @@ function doSearching(res, searchIds) {
 
 exports.processSearch = function(req, res) {
 	var actionValue = req.body.result.actions.value;
-	/*
-	tropo.say(actionValue);
-	res.send(tropowebapi.TropoJSON(tropo));
-	*/
 	if (actionValue == 'next') {
 		var ids = req.query.id;
 		var arrayIds = ids.split(',');
