@@ -20,20 +20,34 @@ exports.processChoices = function(req, res) {
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
 	var actionValue = req.body.result.actions.value;
-	console.log(actionValue);
+	//console.log(actionValue);
 	switch(actionValue) {
 		case '1' : 
-			tropo.say("<speak><prosody rate='70%'>You selected search.</speak></prosody>");
+			tropo.say("<speak><prosody rate='70%'>You selected search.</prosody></speak>");
 			tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/askSearch", true);
 			res.send(tropowebapi.TropoJSON(tropo));
 		break;
 		case '2' : 
-			
+			tropo.say("<speak><prosody rate='70%'>You selected connect.</prosody></speak>");
+			tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/askConnect", true);
+			res.send(tropowebapi.TropoJSON(tropo));			
 		break;
 		case '3' : 
 			
 		break;				
 	}
+}
+
+exports.askConnect = function(req, res) {
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();
+	var say = new Say("<speak><prosody rate='70%'>Please enter the id.</prosody></speak>", null, null, null, null, null);
+
+	var choices = new Choices("[2 DIGITS]", "dtmf", "#");
+	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
+  	//tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
+  	tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/hangup", true);
+  	res.send(tropowebapi.TropoJSON(tropo));
 }
 
 exports.askSearch = function(req, res) {
