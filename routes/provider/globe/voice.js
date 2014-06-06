@@ -60,10 +60,47 @@ function doSearching(res, searchIds) {
 
 exports.processSearch = function(req, res) {
 	var actionValue = req.body.result.actions.value;
-	if (actionValue == 'next') {
-		var ids = req.query.id;
-		var arrayIds = ids.split(',');
-		arrayIds.splice(0,1);
-		doSearching(res, arrayIds);
+
+	switch(actionValue) {
+		case 'next':
+			var ids = req.query.id;
+			var arrayIds = ids.split(',');
+			arrayIds.splice(0,1);
+			doSearching(res, arrayIds);
+		break;
+		case 'call':
+			tropo.say("Please hold while we transfer your superman call!");
+			 var on = [
+			   { "event":"ring",
+			      "say":{
+			         "value":"http://www.phono.com/audio/holdmusic.mp3"
+			      },
+			   }
+			 ];
+			 
+			 var choices = {
+			   "terminator": "#"
+			 }
+
+			 tropo.transfer(["9154980404", "sip:21581127@sip.tropo.com"], null, choices, null, null, null, on, null, null);
+			 
+			 res.send(tropowebapi.TropoJSON(tropo));
+		break;
+		default:
+			var tropowebapi = require('tropo-webapi');
+			var tropo = new tropowebapi.TropoWebAPI();
+			tropo.hangup();
+		break;
 	}
+
+/*
+	if (actionValue == 'next') {
+	} else if (actionValue == 'end') {
+	}
+
+	if (actionValue == 'call') {
+
+	}
+*/
+
 }
