@@ -49,7 +49,7 @@ module.exports = function(request, response) {
            console.log('Access Token:', accessToken);
            console.log('Subscriber Number:', subscriberNumber);
 
-		   	Q.ninvoke(User, 'create', {number:subscriberNumber})
+		   	Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE'})
 		    .then(function(createdUser){
 		    	response.end(JSON.stringify(data, null, 4));
 		    })
