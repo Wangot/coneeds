@@ -17,6 +17,22 @@ module.exports = function(app){
   app.post('/otp/validate', validateOTP);
 
   app.post('/login', login);
+
+  app.get('/testSearch', function(req, res) {
+
+    var path = require('path'), 
+        coneedsAPI = require(path.resolve('./models/api'));
+
+    var modelsPath = path.resolve('./models/orm');
+    var User = require(path.join(modelsPath, '/user'))(req.db);
+
+    User.searchProfessional('brown', function(err, data) {
+      console.log(err, data);
+    });
+
+    res.send('test');
+  });
+
 }
 
 var Q = require('q');

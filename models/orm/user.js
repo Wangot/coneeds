@@ -3,13 +3,25 @@
 **/
 module.exports = function(db) {
   
+  db.defineType('coords', { 
+    datastoreType: function(prop) {
+      return 'decimal(10,3)' 
+    }
+  });
+
   var User = db.define('user', {
     number        : { type: 'text', size: 100, required: true },
     status        : { type: 'text', size: 40, defaultValue: 'INACTIVE'},
     rtc_id        : { type: 'text', size: 100 },
     otp_code      : { type: 'text', size: 100 },
     expired       : { type: 'date', time: true },
-    code          : { type: 'text', size: 500 }
+    code          : { type: 'text', size: 500 },
+    short_desc    : { type: 'text', size: 255 },
+    keywords      : { type: 'text', size: 255 },
+    screen_name   : { type: 'text', size: 40 },
+    lat           : { type: 'coords'},
+    lng           : { type: 'coords'},
+    is_professional : Boolean
   }, {
     methods: {
       computeExpiryDate: function(dateObj) {
@@ -65,6 +77,18 @@ module.exports = function(db) {
  
     return activationCode; 
   }
+
+  User.searchProfessional = function(keywords, _callback) {
+
+    var maxResults = 5;
+
+    var query = "SELECT * from `user` WHERE `keywords` LIKE '%" +keywords+ "%' LIMIT " + maxResults;
+
+    db.driver.execQuery(query, function(err, queryResult){
+      _callback(err, queryResult);
+    });
+
+  };
   
   return User;
 }
