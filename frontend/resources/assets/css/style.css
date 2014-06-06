@@ -29,10 +29,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #header #logo {
     font-family: 'Open Sans';
-	text-decoration: none;
-	color: #fff;
-	font-size: 26px;
-	font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
 }
 
 #main-nav ul {
@@ -40,15 +40,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #main-nav ul li a {
-	font-family: 'Open Sans';
-	text-decoration: none;
-	color: #fff;
-	font-weight: 600;
+    font-family: 'Open Sans';
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
 }
 
 #main-nav ul li a:hover {
     background: none;
     color: #F63D2E;
+}
+
+#main-nav ul li:lastchild {
+    border-left: 1px solid #F63D2E;
 }
 
 .modal-backdrop, .modal-backdrop.fade.in {
@@ -61,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* PROFILE */
 .after-nav {
-    height: 72px;
+    height: 76px;
 }
 
 #header-profile {
@@ -97,11 +101,11 @@ h1, h2, h3, h4, h5, h6 {
 
 #user-profile {
     background: #DBDBDB;
-	margin-top: 10px;
-	padding: 30px 10px;
-	color: #263248;
-	font-weight: 600;
-	display: inline-block;
+    margin-top: 10px;
+    padding: 30px 10px;
+    color: #263248;
+    font-weight: 600;
+    display: inline-block;
 }
 
 #user-profile h4 {
@@ -122,8 +126,8 @@ h1, h2, h3, h4, h5, h6 {
 
 #search-form .header {
     background: #263248;
-	padding: 7px;
-	text-align: center;
+    padding: 7px;
+    text-align: center;
 }
 
 #search-form .header h4 {
@@ -169,22 +173,22 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-#category {
+#category, .category-list {
     color: #263248;
 }
 
-#category-list h2 {
+.category-list h2 {
     color: #263248;
     font-weight: 600;
 }
 
-#category .header {
+#category .header, #search-result .header, #search-result .header {
     width: 100%;
     display: inline-block;
     padding-top: 30px;
 }
 
-#category #category-list {
+#category .category-list, #search-result .category-list, #history .category-list {
     width: 80%;
     margin: 0 auto;
 }
@@ -204,6 +208,191 @@ h1, h2, h3, h4, h5, h6 {
 .list p {
     font-weight: 300;
     font-size: 13px;
+}
+
+#search-result .pro {
+     color: #263248;    
+}
+
+#search-result .pro h5 {
+    font-weight: 600;
+}
+
+#search-result .pro img {
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+#search-result .pro .status {
+    font-style: italic;
+    color: #263248;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+#search-result .pro .status.active {
+    color: #31b801;
+    font-weight: 600;
+}
+
+.buttons {
+    list-style: none;
+    background: #D5D5D5;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid darkGray;
+    padding: 5px 15px;
+}
+
+.buttons li {
+    float: left;
+    width: 35px;
+}
+
+.buttons li a {
+    color: #263248;
+    font-size: 16px;
+}
+
+.buttons li a:hover {
+    color: #F63D2E;
+}
+
+.tooltip.bottom {
+    margin-left: 5px;
+}
+
+.tooltip.bottom .tooltip-arrow {
+    border-left-color: #263248;
+}
+.tooltip-inner {
+    background: #263248;
+    padding: 2px 15px;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.table {
+   color: #263248;
+   background: #d5d5d5; 
+   margin-top: 30px;
+}
+
+/* VIDEO CALL MODAL */
+#videocall-modal .modal-dialog {
+    width: 680px;
+    padding-top: 40px;
+}
+
+#videocall-modal .close {
+    padding-top: 15px;
+}
+
+#videocall-modal .modal-header {
+    text-align: left;
+    width: 95%;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    padding-top: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-bottom: 1px solid darkGray;
+}
+
+.screen {
+    width: 100%;
+    background: #959595;
+    height: 290px;
+    margin-top: 20px;
+}
+
+.user-view {
+    height: 95px;
+	width: 105px;
+	position: absolute;
+	border: 1px solid #333;
+	top: 195px;
+	right: 21px;
+}
+
+.chatbox {
+    display: inline-block;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.chatbox .col-md-11 {
+    margin-bottom: 2px;
+}
+
+.chat-content {
+   background: #C5C7C9;
+    text-align: left;
+    font-size: 12px;
+    color: #263248;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.chat-content p {
+    margin-bottom: 5px;
+}
+
+.chat-content.left {
+    background: #c5c7c9;
+}
+
+.chat-content.right {
+    background: #e4c9c6;
+    text-align: right;
+}
+
+/*.chat-content.left::before {
+    content: "\f04b";
+    position: absolute;
+    left: 0px;
+    color: #959595;
+    font-size: 15px;
+    
+}
+
+.chat-content.right::after {
+    content: "\f0d9";
+    position: absolute;
+    left: 0px;
+    color: #959595;
+    font-size: 15px;
+    
+} */
+
+#videocall-modal .input-group {
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 15px;
+}
+
+#videocall-modal input {
+    border-left: 1px solid #CCC;
+}
+
+#videocall-modal .input-group-addon {
+    background-color: #F63D2E;
+    border: 0;
+    border-radius: 0;
+    color: #fff;
+    width: 100px;
+}
+
+#videocall-modal .buttons {
+    list-syle: none;
+    border: 0;
+    background: none;
+    margin-top: 220px;
+    
+     
+	    
 }
 
 /* CONTENT */
@@ -232,11 +421,11 @@ h1, h2, h3, h4, h5, h6 {
 
 #home input {
     border: none;
-	height: 40px;
-	font-size: 17px;
-	font-weight: 600;
-	padding: 5px;
-	border-radius: 0;
+    height: 40px;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 5px;
+    border-radius: 0;
 }
 
 #home .input-group-addon {
@@ -375,8 +564,8 @@ h1, h2, h3, h4, h5, h6 {
 
 #otp-modal .input-group, #verify-modal .input-group {
     width: 80%;
-	margin: 0 auto;
-	border-left: 1px solid #ccc;
+    margin: 0 auto;
+    border-left: 1px solid #ccc;
 }
 
 #otp-modal .input-group-addon , #verify-modal .input-group-addon {
@@ -453,9 +642,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media screen and (width: 1024px) {
-	#home {
-	   padding-top: 180px !important;
-	}
+    #home {
+       padding-top: 180px !important;
+    }
     
      #banner {
         background-position: 0 -250px !important;
