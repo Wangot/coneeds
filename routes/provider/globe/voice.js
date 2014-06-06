@@ -69,8 +69,6 @@ exports.askSearch = function(req, res) {
 
 		var keywordString = keywords.join(',');
 
-		console.log(keywordString);
-
 		var say = new Say("<speak><prosody rate='70%'>What is the keyword you are searching?</prosody></speak>", null, null, null, null, null);
 		var choices = new Choices(keywordString);
 		tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
