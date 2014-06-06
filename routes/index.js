@@ -13,6 +13,8 @@ module.exports = function(app){
   app.post('/otp/validate', validateOTP)
 
   app.get('/dashboard', dashboard)
+
+  app.post('/otp/validate', validateOTP)
 }
 
 var Q = require('q');

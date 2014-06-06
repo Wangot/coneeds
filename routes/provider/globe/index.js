@@ -6,5 +6,5 @@ module.exports = function attachHandlers (router) {
 
     router.get('/globe/testSend', require('./sampleSendMessage'));
 
-    router.get('/globe/voice', require('./voice'));
+    router.post('/globe/voice', require('./voice'));
 };
