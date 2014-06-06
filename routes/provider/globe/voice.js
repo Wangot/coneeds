@@ -2,10 +2,10 @@ exports.voice = function(req, res) {
 	var tropowebapi = require('tropo-webapi');
 	var tropo = new tropowebapi.TropoWebAPI();
   
-	tropo.say("<speak><prosody rate='70%'>Welcome to con-needs.</prosody></speak>");
+	tropo.say("<speak><prosody rate='80%'>Welcome to con-needs.</prosody></speak>");
 
   	// Demonstrates how to use the base Tropo action classes.
-  	var say = new Say("<speak><prosody rate='70%'>to search press 1....... to connect press 2....... to check your balance press 3......</prosody></speak>", null, null, null, null, null);
+  	var say = new Say("<speak><prosody rate='70%'>to SEARCH press 1.......... to CONNECT press 2.......... to check your BALANCE press 3.........</prosody></speak>", null, null, null, null, null);
 
   	var choices = new Choices("[1 DIGIT]", "dtmf", "#");
   
@@ -24,6 +24,7 @@ exports.askSearch = function(req, res) {
 	var choices = new Choices("test, Tutor, Teacher, Lawyer, Nurse");
 	tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
   	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
+  	tropo.on("hangup", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
   	res.send(tropowebapi.TropoJSON(tropo));
 }
 
@@ -94,4 +95,25 @@ exports.processSearch = function(req, res) {
 		break;
 	}
 
+}
+
+exports.hangup = function(req, res) {
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();
+	tropo.say("<speak><prosody rate='70%'>Thank you for calling!</prosody></speak>");
+	res.send(tropowebapi.TropoJSON(tropo));
+}
+
+exports.incomplete = function(req, res) {
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();
+	tropo.say("<speak><prosody rate='70%'>Thank you for calling!</prosody></speak>");
+	res.send(tropowebapi.TropoJSON(tropo));	
+}
+
+exports.error = function(req, res) {
+	var tropowebapi = require('tropo-webapi');
+	var tropo = new tropowebapi.TropoWebAPI();
+	tropo.say("<speak><prosody rate='70%'>Thank you for calling!</prosody></speak>");
+	res.send(tropowebapi.TropoJSON(tropo));
 }
