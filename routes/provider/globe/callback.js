@@ -55,7 +55,7 @@ module.exports = function(request, response) {
            		if (users.length > 0) {
            			return Q.ninvoke(User, 'get', users[0].id);
            		} else {
-           			return Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE', credits: 50});
+           			return Q.ninvoke(User, 'create', {number:subscriberNumber, status: 'ACTIVE', credits: 50, avatar: 'http://coneeds.98labs.com:8080/resources/assets/images/imageProfile.png'});
            		}
            	})
 		   	.then(function(user){
