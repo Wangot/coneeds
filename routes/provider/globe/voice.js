@@ -131,13 +131,16 @@ function doSearching(req, res, searchIds, isFirst) {
 	Q.ninvoke(User, 'get', searchIds[0])
 	.then(function(user) {
 
+		var say;
 		if(isFirst) {
-			var resultCount = searchIds.length();
+			var resultCount = searchIds.length;
 
-			var say = new Say("<speak><prosody rate='70%'>I have found " + resultCount + " results... The first result is..." + user.short_desc +"</prosody></speak>", null, null, null, null, null);
+			say = new Say("<speak><prosody rate='70%'>I have found " + resultCount + " results... The first result is..." + user.short_desc +"</prosody></speak>", null, null, null, null, null);
 		} else {
-			var say = new Say("<speak><prosody rate='70%'>"+ user.short_desc +"</prosody></speak>", null, null, null, null, null);
+			say = new Say("<speak><prosody rate='70%'>"+ user.short_desc +"</prosody></speak>", null, null, null, null, null);
 		}
+
+		console.log(say);
 
 		var choices = new Choices("call, next, end");
 		var arrayString = searchIds.join(',');
