@@ -134,7 +134,7 @@ function doSearching(req, res, searchIds, isFirst) {
 		var say;
 		var appendSay = '... What would you like to do? CALL? or NEXT?';
 		if (searchIds.length == 1) {
-			appendSay = '... This is the last item on the list. What would you like to do? CALL? or END?';
+			appendSay = '... This is the last item on the list. What would you like to do? CALL? or end?';
 		}
 
 		if(isFirst) {
