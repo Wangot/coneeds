@@ -132,12 +132,17 @@ function doSearching(req, res, searchIds, isFirst) {
 	.then(function(user) {
 
 		var say;
+		var appendSay = 'What would you like to do? CALL? or NEXT?';
+		if (searchIds.length == 1) {
+			appendSay = 'This is the last item on the list. Goodbye.';
+		}
+
 		if(isFirst) {
 			var resultCount = searchIds.length;
 
-			say = new Say("<speak><prosody rate='70%'>I have found " + resultCount + " results... The first result is..." + user.short_desc +"</prosody></speak>", null, null, null, null, null);
+			say = new Say("<speak><prosody rate='70%'>I have found " + resultCount + " results... The first result is..." + user.short_desc + appendSay +"</prosody></speak>", null, null, null, null, null);
 		} else {
-			say = new Say("<speak><prosody rate='70%'>"+ user.short_desc +"</prosody></speak>", null, null, null, null, null);
+			say = new Say("<speak><prosody rate='70%'>"+ user.short_desc + appendSay +"</prosody></speak>", null, null, null, null, null);
 		}
 
 		console.log(say);
