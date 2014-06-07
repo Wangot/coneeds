@@ -172,15 +172,15 @@ var onEmitReturnToken = function(connectionObj, socketCallback, next){
 	
 	easyrtc.events.on("emitReturnToken", onEmitReturnToken);
 	
-	myIceServers = [                                    // Array of STUN and TURN servers. By default there is only publicly available STUN servers.
-		{url: "stun:numb.viagenie.ca"},
-		{url: "stun:s2.voipstation.jp"},
-		{url: "stun:stun.l.google.com:19302"},
-		{url: "stun:stun.sipgate.net"},
-		{url: "stun:217.10.68.152"},
-		{url: "stun:stun.sipgate.net:10000"},
-		{url: "stun:217.10.68.152:10000"}
-	];
+	// myIceServers = [                                    // Array of STUN and TURN servers. By default there is only publicly available STUN servers.
+	// 	{url: "stun:numb.viagenie.ca"},
+	// 	{url: "stun:s2.voipstation.jp"},
+	// 	{url: "stun:stun.l.google.com:19302"},
+	// 	{url: "stun:stun.sipgate.net"},
+	// 	{url: "stun:217.10.68.152"},
+	// 	{url: "stun:stun.sipgate.net:10000"},
+	// 	{url: "stun:217.10.68.152:10000"}
+	// ];
 	
-	easyrtc.setOption("appIceServers", myIceServers);
+	// easyrtc.setOption("appIceServers", myIceServers);
 }
