@@ -5,7 +5,7 @@ exports.voice = function(req, res) {
 	tropo.say("<speak><prosody rate='80%'>Welcome to con-needs.</prosody></speak>");
 
   	// Demonstrates how to use the base Tropo action classes.
-  	var say = new Say("<speak><prosody rate='70%'>to SEARCH press 1.......... to CONNECT press 2.......... to check your BALANCE press 3.........</prosody></speak>", null, null, null, null, null);
+  	var say = new Say("<speak><prosody rate='70%'>to SEARCH press 1.......... to CONNECT press 2.......... </prosody></speak>", null, null, null, null, null);
 
   	var choices = new Choices("[1 DIGIT]", "dtmf", "#");
   
