@@ -69,7 +69,7 @@ exports.askSearch = function(req, res) {
 
 		var keywordString = keywords.join(',');
 
-		var say = new Say("<speak><prosody rate='70%'>What is the keyword you are searching?</prosody></speak>", null, null, null, null, null);
+		var say = new Say("<speak><prosody rate='70%'>Please tell me what you are looking for.</prosody></speak>", null, null, null, null, null);
 		var choices = new Choices(keywordString);
 		tropo.ask(choices, 5, false, null, "foo", null, true, say, 5, null);
 	  	tropo.on("continue", null, "http://coneeds.98labs.com:8080/globe/voice/doSearch", true);
@@ -115,11 +115,12 @@ exports.doSearch = function(req, res) {
 			searchIds.push(users[i].id);
 		}
 
-		doSearching(req, res, searchIds);
+		//say
+		doSearching(req, res, searchIds, true);
 	});
 }
 
-function doSearching(req, res, searchIds) {
+function doSearching(req, res, searchIds, isFirst) {
 	var Q = require('q');
 	var path = require('path');
 	var modelPath =  path.resolve('./', 'models/orm');
@@ -129,7 +130,14 @@ function doSearching(req, res, searchIds) {
 	var tropo = new tropowebapi.TropoWebAPI();
 	Q.ninvoke(User, 'get', searchIds[0])
 	.then(function(user) {
-		var say = new Say("<speak><prosody rate='70%'>"+ user.short_desc +"</prosody></speak>", null, null, null, null, null);
+
+		if(isFirst) {
+			var resultCount = searchIds.length();
+
+			var say = new Say("<speak><prosody rate='70%'>I have found " + resultCount + " results... The first result is..." + user.short_desc +"</prosody></speak>", null, null, null, null, null);
+		} else {
+			var say = new Say("<speak><prosody rate='70%'>"+ user.short_desc +"</prosody></speak>", null, null, null, null, null);
+		}
 
 		var choices = new Choices("call, next, end");
 		var arrayString = searchIds.join(',');
@@ -188,7 +196,7 @@ exports.processSearch = function(req, res) {
 			var ids = req.query.id;
 			var arrayIds = ids.split(',');
 			arrayIds.splice(0,1);
-			doSearching(req, res, arrayIds);
+			doSearching(req, res, arrayIds, false);
 		break;
 		case 'call':
 			var ids = req.query.id;
