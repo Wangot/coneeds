@@ -108,6 +108,19 @@ h1, h2, h3, h4, h5, h6 {
     display: inline-block;
 }
 
+#user-profile .img-wrapper {
+	height: 75px;
+	width: 100%;
+	background: #263248;
+}
+
+#user-profile img {
+	max-width: 100%;
+	max-height: 75px;
+	margin: 0 auto;
+	
+}
+
 #user-profile h4 {
     font-weight: 700;
 }
@@ -221,6 +234,8 @@ h1, h2, h3, h4, h5, h6 {
 #search-result .pro img {
     margin: 0 auto;
     margin-bottom: 10px;
+	max-width: 100%;
+	max-height: 100px;
 }
 
 #search-result .pro .status {
@@ -307,13 +322,18 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 20px;
 }
 
+#videocall-modal .call-buttons {
+	position: absolute;
+	top: 215px;
+	left: 35%;
+}
+
 .user-view {
     height: 95px;
 	width: 105px;
 	position: absolute;
-	border: 1px solid #333;
 	top: 195px;
-	right: 21px;
+	right: 25px;
 }
 
 .chatbox {
@@ -588,6 +608,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #F63D2E;
     border: 0;
     border-radius: 0;
+}
+
+#accept-call-modal #acceptCallBox h4 {
+	color: #263248;
 }
 
 /* MEDIA QUERIES */

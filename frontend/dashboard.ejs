@@ -1,15 +1,160 @@
 <% layout('inner-layout') -%>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
+
+<script>
+		
+	function initializeApplication() {
+	
+		easyrtc.setUsername("<%= user.number %>");
+		
+		easyrtc.setCredential({
+			"password":"<%= user.otp_code %>",
+			"realm":"easyrtc.com",
+			"apikey":"d834kds81vs189s10kkd4",
+			"type":"client",
+		});
+	
+		easyrtc.setRoomOccupantListener(roomListener);
+		
+		var connectSuccess = function(myId) {
+			console.log("My easyrtcid is " + myId);
+		}
+		
+		var connectFailure = function(errmesg) {
+			console.log(errmesg);
+		}
+		
+		//easyrtc.connect("Coneeds", connectSuccess, connectFailure);
+		
+		easyrtc.initMediaSource(
+			function(){       // success callback
+				var selfVideo = document.getElementById("client");
+				easyrtc.setVideoObjectSrc(selfVideo, easyrtc.getLocalStream());
+				easyrtc.connect("Coneeds", connectSuccess, connectFailure);
+			},
+			connectFailure
+		);
+		
+		easyrtc.setStreamAcceptor( function(callerEasyrtcid, stream) {
+			var video = document.getElementById('expert');
+			easyrtc.setVideoObjectSrc(video, stream);
+		});
+		
+		 easyrtc.setOnStreamClosed( function (callerEasyrtcid) {
+			easyrtc.setVideoObjectSrc(document.getElementById('expert'), "");
+		})
+		
+		easyrtc.setAcceptChecker( function(callerId, reporterFunction) {
+			//document.getElementById('acceptCallBox').style.display = "block";
+			$('#accept-call-modal').modal('show');
+			if( easyrtc.getConnectionCount() > 0 ) 
+			{
+				document.getElementById('acceptCallLabel').innerHTML = "Drop current call and accept new from +63" + easyrtc.idToName(callerId) + " ?";
+			}
+			else 
+			{
+				document.getElementById('acceptCallLabel').innerHTML = "Accept incoming call from +63" + easyrtc.idToName(callerId) + " ?";
+			}
+			
+			var acceptTheCall = function(wasAccepted) {
+				//document.getElementById('acceptCallBox').style.display = "none";
+				$('#accept-call-modal').modal('hide');
+				if( wasAccepted && easyrtc.getConnectionCount() > 0 ) 
+				{
+					easyrtc.hangupAll();
+				}
+				reporterFunction(wasAccepted);
+				
+				$('#videocall-modal').modal('show');
+			}
+			
+			document.getElementById("callAcceptButton").onclick = function() { acceptTheCall(true); return false;};
+			document.getElementById("callRejectButton").onclick =function() { acceptTheCall(false); return false;};
+			
+		});
+		
+	}
+	
+	function roomListener(roomName, otherPeers, myInfo) {
+		
+		console.log("Entering: " + roomName + " [Room listener!!!] " + myInfo);
+		
+		console.log(myInfo);
+		
+		var participantsDiv = document.getElementById('online_professionals');
+		
+		while (participantsDiv.hasChildNodes()) {
+			participantsDiv.removeChild(participantsDiv.lastChild);
+		}
+		
+		console.log(otherPeers);
+		
+		for(var i in otherPeers) {
+			
+			console.log("---------");
+			console.log(i);
+			console.log("---------");
+			
+			var profile = otherPeers[i].userProfile;
+			
+			var s = '<div class="pro text-center">' +
+				'<h5>' + profile.screen_name + '</h5>' +
+				'<img src="' + profile.avatar + '" class="img-responsive"/>' +
+				'<p class="status active">ONLINE</p>' +
+				'<p class="desc">' + profile.short_desc + '</p>' +
+				'<ul class="buttons">' +
+				'	<li data-toggle="tooltip" data-placement="bottom" title="Message"><a href=""><i class="fa fa-envelope"></i></a></li>    ' +
+				'	<li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#call-modal"><i class="fa fa-phone"></i></a></li>    ' +
+				'	<li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href="" onclick="initiateVideoCall(\'' + i + '\'); return false;"><i class="fa fa-video-camera"></i></a></li>    ' +
+				'	<li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href=""><i class="fa fa-comments-o"></i></a></li>    ' +
+				'	<li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href=""><i class="fa fa-plus-circle"></i></a></li>    ' +
+				'</ul>' +
+			'</div>';
+			
+			var container = document.createElement('div');
+			container.className = "col-md-4";
+			container.innerHTML = s;
+			
+			console.debug("logging peer: " + i);
+			
+			participantsDiv.appendChild(container);
+		}
+		
+	}
+	
+	function performCall(easyrtcid) {
+		easyrtc.call(
+			easyrtcid,
+			function(easyrtcid) { console.log("completed call to " + easyrtcid); },
+			function(errorMessage) { console.log("err:" + errorMessage); },
+			function(accepted, bywho) {
+				console.log((accepted?"accepted":"rejected")+ " by " + bywho);
+			}
+		);
+	}
+	
+	function initiateVideoCall(easyrtcid) {
+		$('#videocall-modal').modal();
+		performCall(easyrtcid);
+	}
+
+</script>
+
 <div class="body-content">
    <div id="banner"></div>
    <div class="container">
         <div class="col-md-4">
              <div id="user-profile" class="col-md-12">
                  <div class="col-md-4">
-                     <img src="resources/assets/images/imageProfile.png" class="img-responsive"/>
-                 </div>
+					<div class="img-wrapper">
+						<img src="<%= user.avatar %>" class="img-responsive"/>
+					</div>
+				 </div>
                  <div class="col-md-8 no-padding">
-                     <h4>LOREM IPSUM DOLOR</h4>
-                     <p><i class="fa fa-mobile"></i> +63-912-345-6789</p>
+                     <h4><%= user.screen_name %></h4>
+                     <p><i class="fa fa-mobile"></i> +63-<%= user.number %></p>
                      <p style="font-weight: 300">No. of Credits: <strong>300</strong></p>
                      <p><a style="font-weight: 300" href="" data-toggle="modal" data-target="#topup-modal">Buy Credits</a></p>
                  </div>
@@ -78,62 +223,18 @@
                 <div class="header">
                     <div class="category-list">
                         <div class="line col-md-3"></div>        
-                        <div class="col-md-6"><h2 class="text-center">SEARCH RESULTS</h2></div>        
+                        <div class="col-md-6"><h2 class="text-center">Who's Online</h2></div>        
                         <div class="line col-md-3"></div> 
-                        <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p class="text-center">Talk to one of our experts.</p>
                     </div> 
                 </div>
-                <div class="list container">
-                    <div class="col-md-4">
-                        <div class="pro text-center">
-                            <h5>CLARITAS EST ETIAM</h5>
-                            <img src="resources/assets/images/imageProfile.png" class="img-responsive"/>
-                            <p class="status active">ONLINE</p>
-                            <p class="desc">Nam sit amet erat nec risus lobortis rutrum.</p>
-                            <ul class="buttons">
-                                <li data-toggle="tooltip" data-placement="bottom" title="Message"><a href=""><i class="fa fa-envelope"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#call-modal"><i class="fa fa-phone"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href="" data-toggle="modal" data-target="#videocall-modal"><i class="fa fa-video-camera"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href=""><i class="fa fa-comments-o"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href=""><i class="fa fa-plus-circle"></i></a></li>    
-                            </ul>
-                        </div>    
-                     </div>
-                     <div class="col-md-4">
-                          <div class="pro text-center">
-                              <h5>CLARITAS EST ETIAM</h5>
-                              <img src="resources/assets/images/imageProfile.png" class="img-responsive"/>
-                              <p class="status active">ONLINE</p>
-                              <p class="desc">Nam sit amet erat nec risus lobortis rutrum.</p>
-                              <ul class="buttons">
-                                  <li data-toggle="tooltip" data-placement="bottom" title="Message"><a href=""><i class="fa fa-envelope"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#call-modal"><i class="fa fa-phone"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href=""  data-toggle="modal" data-target="#videocall-modal"><i class="fa fa-video-camera"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href=""><i class="fa fa-comments-o"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href=""><i class="fa fa-plus-circle"></i></a></li>    
-                              </ul>
-                          </div>    
-                      </div>
-                    <div class="col-md-4">
-                        <div class="pro text-center">
-                            <h5>CLARITAS EST ETIAM</h5>
-                            <img src="resources/assets/images/imageProfile.png" class="img-responsive"/>
-                            <p class="status">OFFLINE</p>
-                            <p class="desc">Nam sit amet erat nec risus lobortis rutrum.</p>
-                            <ul class="buttons">
-                                <li data-toggle="tooltip" data-placement="bottom" title="Message"><a href=""><i class="fa fa-envelope"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Call"><a href="" data-toggle="modal" data-target="#call-modal"><i class="fa fa-phone"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Video Call"><a href=""  data-toggle="modal" data-target="#videocall-modal"><i class="fa fa-video-camera"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Chat"><a href=""><i class="fa fa-comments-o"></i></a></li>    
-                                <li data-toggle="tooltip" data-placement="bottom" title="Add to Contacts"><a href=""><i class="fa fa-plus-circle"></i></a></li>      
-                            </ul>
-                        </div>    
-                   </div>  
+                <div id="online_professionals" class="list container">
+                   
                 </div>
             </div>
             
             <!-- HISTORY -->
-             <div id="history" class="col-md-12 no-padding">
+             <div id="history" class="col-md-12 no-padding" style="display:none">
                 <div class="header">
                     <div class="category-list">
                         <div class="line col-md-3"></div>        
@@ -183,25 +284,14 @@
                   </div>
                   <div class="modal-body">
                      <div class="screen">
-                        <div class=call-"buttons" style="padding-top: 200px;">
+						<video  id="expert" width="100%" height="100%" muted="muted"></video>
+                        <div class="call-buttons">
                             <a href="" data-toggle="tooltip" data-placement="bottom" title="Call"><img src="resources/assets/images/call.png"/></a>
                             <a href="" data-toggle="tooltip" data-placement="bottom" title="Decline"><img src="resources/assets/images/decline.png"/></a>
                         </div>
                      </div>
-                     <div class="user-view"></div>
+                     <div class="user-view"><video  id="client" width="100%" height="100%" muted="muted"></video></div>
                      <div class="chatbox">
-                         <div class="col-md-11 no-padding" style="display: inline-block;">
-                             <div class="col-md-1 no-padding">
-                                 <img src="resources/assets/images/imageProfile.png" class="img-responsive"/>
-                             </div>
-                             <div class="col-md-11 no-padding">
-                                 <div class="chat-content left col-md-12">
-                                     <p>User says...</p>
-                                     <p>Nam sit amet erat nec risus lobortis rutrum. Aenean ornare tempor nisl, vel egestas diam ullamcorper quis. Vivamus semper luctus malesuada. </p>
-                                 </div>
-                             </div>
-                         </div>
-                         
                          <div class="col-md-11 no-padding" style="display: inline-block;">
                              <div class="col-md-1 no-padding">
                                  <img src="resources/assets/images/imageProfile.png" class="img-responsive"/>
@@ -259,6 +349,31 @@
               </div>
             </div>
             
+			<!-- ACCEPT CALL MODAL -->
+            <div class="modal fade" id="accept-call-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"><span style="color: #F63D2E">Co</span>Needs <span style="color: #F63D2E">Call</span></h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="container">
+                        <div id="acceptCallBox">
+							<h4 id="acceptCallLabel"></h4>
+							<div class=call-"buttons">
+								<a id="callAcceptButton" href="" data-toggle="tooltip" data-placement="bottom" title="Call"><img src="resources/assets/images/call.png"/></a>
+								<a id="callRejectButton" href="" data-toggle="tooltip" data-placement="bottom" title="Decline"><img src="resources/assets/images/decline.png"/></a>
+							</div>
+						</div>
+                    </div>    
+                  </div>
+                </div>
+              </div>
+            </div>
+			
+			
+			
             <!-- TOP UP MODAL -->
             <div class="modal fade" id="topup-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -286,3 +401,7 @@
             </div>
        </div>
 </div>
+
+<script>
+	initializeApplication();
+</script>
