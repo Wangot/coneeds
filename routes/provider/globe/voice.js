@@ -132,9 +132,9 @@ function doSearching(req, res, searchIds, isFirst) {
 	.then(function(user) {
 
 		var say;
-		var appendSay = 'What would you like to do? CALL? or NEXT?';
+		var appendSay = '... What would you like to do? CALL? or NEXT?';
 		if (searchIds.length == 1) {
-			appendSay = 'This is the last item on the list. Goodbye.';
+			appendSay = '... This is the last item on the list. What would you like to do? CALL? or END?';
 		}
 
 		if(isFirst) {
