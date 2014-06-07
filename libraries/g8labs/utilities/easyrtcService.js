@@ -173,16 +173,13 @@ var onEmitReturnToken = function(connectionObj, socketCallback, next){
 	easyrtc.events.on("emitReturnToken", onEmitReturnToken);
 	
 	myIceServers = [                                    // Array of STUN and TURN servers. By default there is only publicly available STUN servers.
+		{url: "stun:numb.viagenie.ca"},
+		{url: "stun:s2.voipstation.jp"},
 		{url: "stun:stun.l.google.com:19302"},
 		{url: "stun:stun.sipgate.net"},
 		{url: "stun:217.10.68.152"},
 		{url: "stun:stun.sipgate.net:10000"},
-		{url: "stun:217.10.68.152:10000"},
-		{
-			"url": "turn:ubuntu@54.200.10.189", 
-			"username":"crossfingers", 
-			"credential":"0xffec2cebd2a525c0ce35eeadd01fd12f"
-		}
+		{url: "stun:217.10.68.152:10000"}
 	];
 	
 	easyrtc.setOption("appIceServers", myIceServers);
